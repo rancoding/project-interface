@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="warehouseLeftMenu" prefHeight="290.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.menu.left.FXMLWarehouseLeftMenuController">
+   <left>
+      <Pane prefHeight="290.0" prefWidth="125.0" style="-fx-background-color: #E2E2E2;" BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton id="productButton" fx:id="productButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchCenter" prefHeight="40.0" prefWidth="125.0" stylesheets="@css/button/warehouseLeftMenuButton.css" text="PRODUTOS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="categoryButton" fx:id="categoryButton" focusTraversable="false" layoutY="42.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="40.0" prefWidth="125.0" stylesheets="@css/button/warehouseLeftMenuButton.css" text="CATEGORIAS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="brandButton" fx:id="brandButton" layoutY="84.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="40.0" prefWidth="125.0" stylesheets="@css/button/warehouseLeftMenuButton.css" text="MARCAS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="sizeButton" fx:id="sizeButton" layoutY="126.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="40.0" prefWidth="125.0" stylesheets="@css/button/warehouseLeftMenuButton.css" text="TAMANHOS" />
+            <ToggleButton id="colorButton" fx:id="colorButton" layoutY="168.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="40.0" prefWidth="125.0" stylesheets="@css/button/warehouseLeftMenuButton.css" text="CORES" />
+         </children>
+      </Pane>
+   </left>
+</BorderPane>

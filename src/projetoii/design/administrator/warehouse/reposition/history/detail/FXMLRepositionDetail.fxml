@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.reposition.history.detail.FXMLRepositionDetailController">
+    <children>
+      <TextField disable="true" layoutX="10.0" layoutY="10.0" prefWidth="150.0" text="Armazém 1" />
+      <TextField disable="true" layoutX="10.0" layoutY="45.0" prefWidth="150.0" text="Loja 2" />
+      <Label layoutX="170.0" layoutY="14.0" prefWidth="100.0" text="Data de Envio" />
+      <TextField disable="true" layoutX="271.0" layoutY="10.0" prefWidth="150.0" text="01/01/2017" />
+      <Label layoutX="170.0" layoutY="49.0" prefWidth="100.0" text="Data de Entrega" />
+      <TextField disable="true" layoutX="271.0" layoutY="45.0" prefWidth="150.0" text="01/01/2017" />
+      <TableView layoutX="10.0" layoutY="80.0" prefHeight="250.0" prefWidth="580.0">
+         <columns>
+            <TableColumn prefWidth="150.0" text="Código de Barras" />
+            <TableColumn prefWidth="100.0" text="Produto" />
+            <TableColumn text="Quantidade" />
+            <TableColumn prefWidth="125.0" text="Funcionário Envio" />
+            <TableColumn prefWidth="125.0" text="Funcionário Entrega" />
+         </columns>
+      </TableView>
+      <Pane layoutY="340.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #e2e2e2;">
+         <children>
+            <Button layoutX="490.0" layoutY="18.0" mnemonicParsing="false" prefWidth="100.0" text="VOLTAR" />
+         </children>
+      </Pane>
+      <ComboBox layoutX="530.0" layoutY="10.0" prefWidth="60.0" promptText="PT" />
+   </children>
+</AnchorPane>

@@ -1,0 +1,90 @@
+#salesBtn
+{
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#salesBtn:hover
+{
+    -fx-background-color: #212123;
+}
+
+#salesBtn:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#salesBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#savedSalesBtn
+{
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#savedSalesBtn:hover
+{
+    -fx-background-color: #212123;
+}
+
+#savedSalesBtn:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#savedSalesBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#repositionBtn
+{
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#repositionBtn:hover
+{
+    -fx-background-color: #212123;
+}
+
+#repositionBtn:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#repositionBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#workingHoursBtn
+{
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#workingHoursBtn:hover
+{
+    -fx-background-color: #212123;
+}
+
+#workingHoursBtn:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#workingHoursBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}

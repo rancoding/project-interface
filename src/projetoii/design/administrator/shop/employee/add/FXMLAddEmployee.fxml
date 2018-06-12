@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="500.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.shop.employee.add.FXMLAddEmployeeController">
+    <children>
+      <Label layoutX="10.0" layoutY="14.0" prefWidth="100.0" text="Nome" />
+      <TextField layoutX="111.0" layoutY="10.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="47.0" prefWidth="100.0" text="Morada" />
+      <TextField layoutX="111.0" layoutY="43.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="82.0" prefWidth="100.0" text="Username" />
+      <TextField layoutX="111.0" layoutY="78.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="117.0" prefWidth="100.0" text="Password" />
+      <TextField layoutX="111.0" layoutY="113.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="152.0" prefWidth="100.0" text="Data Nascimento" />
+      <DatePicker layoutX="111.0" layoutY="148.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="187.0" prefWidth="100.0" text="Sexo" />
+      <ComboBox layoutX="111.0" layoutY="183.0" prefWidth="150.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="152.0" prefWidth="100.0" text="Tipo Funcionário" />
+      <ComboBox layoutX="440.0" layoutY="148.0" prefWidth="150.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="187.0" prefWidth="100.0" text="Activo" />
+      <ComboBox layoutX="440.0" layoutY="183.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="222.0" prefWidth="100.0" text="Hora Entrada 1" />
+      <TextField layoutX="111.0" layoutY="218.0" prefWidth="150.0" />
+      <Label layoutX="10.0" layoutY="257.0" prefWidth="100.0" text="Hora Saída 1" />
+      <TextField layoutX="111.0" layoutY="253.0" prefWidth="150.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="222.0" prefWidth="100.0" text="Hora Entrada 2" />
+      <TextField layoutX="440.0" layoutY="218.0" prefWidth="150.0" />
+      <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="257.0" prefWidth="100.0" text="Hora Saída 2" />
+      <TextField layoutX="440.0" layoutY="253.0" prefWidth="150.0" />
+      <TableView layoutX="10.0" layoutY="290.0" prefHeight="140.0" prefWidth="580.0">
+         <columns>
+            <TableColumn prefWidth="145.0" text="Hora de Entrada 1" />
+            <TableColumn prefWidth="145.0" text="Hora de Saída 1" />
+            <TableColumn prefWidth="145.0" text="Hora de Entrada 2" />
+            <TableColumn prefWidth="145.0" text="Hora de Saída 2" />
+         </columns>
+      </TableView>
+      <Pane layoutY="440.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #e2e2e2;">
+         <children>
+            <Button layoutX="430.0" layoutY="18.0" mnemonicParsing="false" prefWidth="50.0" text="OK" />
+            <Button layoutX="490.0" layoutY="18.0" mnemonicParsing="false" prefWidth="100.0" text="CANCELAR" />
+         </children>
+      </Pane>
+      <ComboBox layoutX="530.0" layoutY="10.0" prefWidth="60.0" promptText="PT" />
+   </children>
+</AnchorPane>

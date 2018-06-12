@@ -1,0 +1,23 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 25/mai/2018, 19:28:58
+    Author     : Rafael
+*/
+/*
+text-field {
+  -fx-text-box-border: red;
+  -fx-focus-color: red;
+}*/
+
+.text-field {
+    -fx-background-color: red;
+}
+
+.text-field:focused {
+    -fx-background-color: yellow;
+   
+}

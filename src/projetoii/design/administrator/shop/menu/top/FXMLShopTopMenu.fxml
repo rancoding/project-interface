@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane fx:id="shopTopMenu" prefHeight="350.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.shop.menu.top.FXMLShopTopMenuController">
+    <top>
+      <Pane layoutX="-1.0" prefHeight="60.0" prefWidth="706.0" style="-fx-background-color: #2a2a2a;" BorderPane.alignment="CENTER">
+         <children>
+            <ToggleButton id="shopButton" fx:id="shopButton" focusTraversable="false" mnemonicParsing="false" onAction="#switchCenter" prefHeight="59.0" prefWidth="175.0" stylesheets="@css/button/shopTopMenuButton.css" text="LOJA">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="employeeButton" fx:id="employeeButton" focusTraversable="false" layoutX="177.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="59.0" prefWidth="175.0" stylesheets="@css/button/shopTopMenuButton.css" text="FUNCIONÁRIOS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="repositionButton" fx:id="repositionButton" focusTraversable="false" layoutX="354.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="59.0" prefWidth="175.0" stylesheets="@css/button/shopTopMenuButton.css" text="REPOSIÇÕES">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+            <ToggleButton id="saleButton" fx:id="saleButton" focusTraversable="false" layoutX="531.0" mnemonicParsing="false" onAction="#switchCenter" prefHeight="59.0" prefWidth="175.0" stylesheets="@css/button/shopTopMenuButton.css" text="VENDAS">
+               <font>
+                  <Font size="14.0" />
+               </font>
+            </ToggleButton>
+         </children>
+      </Pane>
+   </top>
+</BorderPane>

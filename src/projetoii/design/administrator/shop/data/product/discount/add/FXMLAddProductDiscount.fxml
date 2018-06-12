@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Spinner?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.Pane?>
+
+<BorderPane prefHeight="210.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.shop.data.product.discount.add.FXMLAddProductDiscountController">
+    <center>
+      <Pane prefHeight="210.0" prefWidth="600.0" BorderPane.alignment="CENTER">
+         <children>
+            <Label layoutX="10.0" layoutY="14.0" prefWidth="200.0" text="Data inicial de desconto" />
+            <DatePicker layoutX="211.0" layoutY="10.0" prefWidth="175.0" />
+            <Label layoutX="10.0" layoutY="47.0" prefWidth="200.0" text="Data final de desconto" />
+            <DatePicker layoutX="211.0" layoutY="43.0" prefWidth="175.0" />
+            <Label layoutX="10.0" layoutY="82.0" prefWidth="200.0" text="Forma de introdução de desconto" />
+            <ComboBox layoutX="211.0" layoutY="78.0" prefWidth="150.0" promptText="Todos os produtos" />
+            <Label layoutX="10.0" layoutY="117.0" prefWidth="200.0" text="Desconto (%)" />
+            <Spinner layoutX="211.0" layoutY="113.0" />
+            <ComboBox layoutX="530.0" layoutY="10.0" prefWidth="60.0" promptText="PT" />
+         </children>
+      </Pane>
+   </center>
+</BorderPane>

@@ -1,0 +1,19 @@
+#accountBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#accountBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+    -fx-border-width: 3 3 3 3;
+    -fx-border-color: #039ed3;
+}
+
+#accountBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+    -fx-border-width: 3 3 3 3;
+    -fx-border-color: #039ed3;
+}

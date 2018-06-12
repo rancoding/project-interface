@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="280.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.data.product.box.list.FXMLListProductBoxController">
+    <children>
+      <TableView layoutX="10.0" layoutY="10.0" prefHeight="200.0" prefWidth="580.0">
+         <columns>
+            <TableColumn prefWidth="75.0" text="# Caixa" />
+            <TableColumn prefWidth="150.0" text="Código Barras" />
+            <TableColumn prefWidth="150.0" text="Produto" />
+            <TableColumn prefWidth="100.0" text="Quantidade" />
+            <TableColumn prefWidth="105.0" text="Editar" />
+         </columns>
+      </TableView>
+      <Pane layoutY="220.0" prefHeight="60.0" prefWidth="600.0" style="-fx-background-color: #E2E2E2;">
+         <children>
+            <Button layoutX="490.0" layoutY="18.0" mnemonicParsing="false" prefWidth="100.0" text="CANCELAR" />
+            <Button layoutX="430.0" layoutY="18.0" mnemonicParsing="false" prefWidth="50.0" text="OK" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

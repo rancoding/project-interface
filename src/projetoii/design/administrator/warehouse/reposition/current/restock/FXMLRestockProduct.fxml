@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<AnchorPane id="AnchorPane" prefHeight="210.0" prefWidth="600.0" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.reposition.current.restock.FXMLRestockProductController">
+    <children>
+      <BorderPane prefHeight="210.0" prefWidth="600.0">
+         <center>
+            <Pane prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+               <children>
+                  <Label layoutX="10.0" layoutY="14.0" prefWidth="100.0" text="Código de Barras" />
+                  <TextField disable="true" layoutX="111.0" layoutY="10.0" prefWidth="150.0" />
+                  <Label layoutX="10.0" layoutY="47.0" text="Nome" />
+                  <TextField disable="true" layoutX="111.0" layoutY="43.0" />
+                  <Label layoutX="10.0" layoutY="82.0" prefWidth="100.0" text="Funcionário Envio" />
+                  <ComboBox layoutX="111.0" layoutY="78.0" prefWidth="150.0" />
+                  <Label layoutX="10.0" layoutY="117.0" prefWidth="100.0" text="Entregar até" />
+                  <DatePicker layoutX="111.0" layoutY="113.0" prefWidth="150.0" />
+                  <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="47.0" prefWidth="100.0" text="Vendido" />
+                  <TextField alignment="CENTER_RIGHT" disable="true" layoutX="440.0" layoutY="43.0" prefWidth="150.0" />
+                  <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="82.0" prefWidth="100.0" text="Stock" />
+                  <TextField alignment="CENTER_RIGHT" layoutX="440.0" layoutY="113.0" prefWidth="150.0" />
+                  <Label alignment="CENTER_RIGHT" layoutX="330.0" layoutY="117.0" prefWidth="100.0" text="Repor:" />
+                  <TextField alignment="CENTER_RIGHT" disable="true" layoutX="440.0" layoutY="78.0" prefWidth="150.0" />
+                  <ComboBox layoutX="530.0" layoutY="10.0" prefWidth="60.0" promptText="PT" />
+               </children>
+            </Pane>
+         </center>
+      </BorderPane>
+   </children>
+</AnchorPane>

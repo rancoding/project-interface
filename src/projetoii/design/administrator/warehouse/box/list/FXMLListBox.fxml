@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="290.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.box.list.FXMLListBoxController">
+    <children>
+      <Pane prefHeight="40.0" prefWidth="706.0">
+         <children>
+            <TextField layoutX="10.0" layoutY="8.0" prefWidth="200.0" promptText="Pesquisar" />
+            <Button layoutX="672.0" layoutY="8.0" mnemonicParsing="false" text="+" />
+         </children>
+      </Pane>
+      <TableView layoutX="10.0" layoutY="40.0" prefHeight="240.0" prefWidth="686.0">
+         <columns>
+            <TableColumn editable="false" prefWidth="50.0" text="#" />
+            <TableColumn editable="false" prefWidth="186.0" text="Código de Barras" />
+            <TableColumn editable="false" prefWidth="186.0" text="Produto" />
+            <TableColumn editable="false" prefWidth="100.0" text="Quantidade" />
+            <TableColumn editable="false" prefWidth="50.0" sortable="false">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/edit.png" />
+                     </image></ImageView>
+               </graphic>
+            </TableColumn>
+            <TableColumn editable="false" prefWidth="50.0" sortable="false">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/delete-button.png" />
+                     </image></ImageView>
+               </graphic>
+            </TableColumn>
+            <TableColumn editable="false" prefWidth="50.0" sortable="false">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/detail.png" />
+                     </image></ImageView>
+               </graphic>
+            </TableColumn>
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

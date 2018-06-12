@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="290.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.employee.list.FXMLListEmployeeController">
+    <children>
+      <Pane prefHeight="40.0" prefWidth="706.0">
+         <children>
+            <TextField fx:id="searchEmployeeTextField" layoutX="10.0" layoutY="8.0" onKeyPressed="#getSearchList" onKeyReleased="#getSearchList" prefWidth="200.0" promptText="Pesquisar" />
+            <Button layoutX="672.0" layoutY="8.0" mnemonicParsing="false" onAction="#handleAddButtonAction" text="+" />
+         </children>
+      </Pane>
+      <TableView fx:id="employeeTable" layoutX="10.0" layoutY="40.0" prefHeight="240.0" prefWidth="686.0">
+         <columns>
+            <TableColumn fx:id="nameColumn" prefWidth="248.0" text="Nome" />
+            <TableColumn fx:id="birthdayColumn" prefWidth="134.0" text="Data de Nascimento" />
+            <TableColumn fx:id="genderColumn" prefWidth="95.0" text="Sexo" />
+            <TableColumn fx:id="workingColumn" prefWidth="75.0" text="Activo" />
+            <TableColumn fx:id="editColumn" prefWidth="40.0">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/edit.png" />
+                     </image></ImageView>
+               </graphic></TableColumn>
+            <TableColumn fx:id="scheduleColumn" prefWidth="40.0">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/schedule.png" />
+                     </image></ImageView>
+               </graphic>
+            </TableColumn>
+            <TableColumn fx:id="detailColumn" prefWidth="40.0">
+               <graphic>
+                  <ImageView fitHeight="12.0" fitWidth="12.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@image/detail.png" />
+                     </image></ImageView>
+               </graphic>
+            </TableColumn>
+         </columns>
+      </TableView>
+   </children>
+</AnchorPane>

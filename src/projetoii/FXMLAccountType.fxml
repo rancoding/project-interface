@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" style="-fx-background-color: #f1f1f1;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.FXMLAccountTypeController">
+   <children>
+      <Pane prefHeight="50.0" prefWidth="600.0" style="-fx-background-color: #2d2d2f;">
+         <children>
+            <ComboBox layoutX="530.0" layoutY="13.0" prefWidth="60.0" promptText="PT" />
+         </children>
+      </Pane>
+      <Pane layoutY="50.0" onMouseClicked="#onButtonAction" onMouseEntered="#setUserButtonVisibleOnHover" onMouseExited="#setUserButtonInvisibleOnHover" prefHeight="350.0" prefWidth="299.0" style="-fx-background-color: #f2f2f2;">
+         <children>
+            <Button id="userButton" fx:id="userButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="350.0" prefWidth="299.0" stylesheets="@design/css/accountTypePage.css" text="ENTRAR" textFill="#f2f2f2" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="118.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@design/image/user.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="25.0" layoutY="100.0" prefWidth="250.0" text="FUNCIONÁRIO">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" layoutX="25.0" layoutY="150.0" prefHeight="50.0" prefWidth="250.0" text="Entre na sua conta de funcionário, e aceda a funções como:" wrapText="true">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Label layoutX="25.0" layoutY="200.0" prefHeight="25.0" prefWidth="250.0" text="- Realizar vendas" textFill="#616161" />
+            <Label layoutX="25.0" layoutY="225.0" prefHeight="25.0" prefWidth="250.0" text="- Aceitar reposições" textFill="#616161" />
+            <Label layoutX="25.0" layoutY="250.0" prefHeight="25.0" prefWidth="250.0" text="- Verificar horário" textFill="#616161" />
+            <Label fx:id="userButtonLabel" layoutX="117.0" layoutY="303.0" text="ENTRAR" textFill="#141414">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+         </children>
+      </Pane>
+      <Pane fx:id="userPane" layoutY="50.0" onMouseEntered="#setUserButtonVisibleOnHover" onMouseExited="#setUserButtonInvisibleOnHover" prefHeight="350.0" prefWidth="299.0" />
+      <Pane fx:id="adminPane" layoutX="301.0" layoutY="50.0" onMouseClicked="#onButtonAction" onMouseEntered="#setAdminButtonVisibleOnHover" onMouseExited="#setAdminButtonInvisibleOnHover" prefHeight="350.0" prefWidth="299.0" style="-fx-background-color: #f2f2f2;">
+         <children>
+            <Button id="adminButton" fx:id="adminButton" alignment="BOTTOM_CENTER" mnemonicParsing="false" prefHeight="350.0" prefWidth="299.0" stylesheets="@design/css/accountTypePage.css" text="ENTRAR" textFill="#141414" visible="false">
+               <font>
+                  <Font size="18.0" />
+               </font>
+               <padding>
+                  <Insets bottom="20.0" />
+               </padding>
+            </Button>
+            <Label fx:id="adminButtonLabel" layoutX="117.0" layoutY="303.0" text="ENTRAR" textFill="#141414">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="118.0" layoutY="25.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@design/image/admin2.png" />
+               </image>
+            </ImageView>
+            <Label alignment="CENTER" layoutX="25.0" layoutY="100.0" prefWidth="250.0" text="ADMINISTRADOR">
+               <font>
+                  <Font size="24.0" />
+               </font>
+            </Label>
+            <Label alignment="TOP_LEFT" layoutX="25.0" layoutY="150.0" prefHeight="50.0" prefWidth="250.0" text="Entre na sua conta de administrador, e aceda a funções como:" wrapText="true">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+            </Label>
+            <Label layoutX="25.0" layoutY="200.0" prefHeight="25.0" prefWidth="250.0" text="- Introduzir produtos, categorias, ..." textFill="#616161" />
+            <Label layoutX="25.0" layoutY="225.0" prefHeight="25.0" prefWidth="250.0" text="- Visualizar pontos de horário de funcionários" textFill="#616161" />
+            <Label layoutX="25.0" layoutY="250.0" prefHeight="25.0" prefWidth="250.0" text="- Verificar e aceitar reposições" textFill="#616161" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

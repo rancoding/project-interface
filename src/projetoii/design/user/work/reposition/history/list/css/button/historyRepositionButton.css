@@ -1,0 +1,51 @@
+#actualBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#actualBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#actualBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+
+#accountBtn
+{
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#accountBtn:hover
+{
+    -fx-background-color: #212123;
+}
+
+#accountBtn:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+
+#closePointBtn
+{
+    -fx-background-color: #f75656;
+    -fx-background-radius: 0em;
+}
+
+#closePointBtn:hover
+{
+    -fx-background-color: #fc6161;
+    -fx-background-radius: 0em;
+}
+
+#closePointBtn:pressed
+{
+    -fx-background-color: #fa6f6f;
+    -fx-background-radius: 0em;
+}

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.ToggleButton?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<AnchorPane id="AnchorPane" prefHeight="290.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.shop.sale.list.FXMLListSaleController">
+    <children>
+      <TextField layoutX="10.0" layoutY="10.0" prefWidth="200.0" promptText="Pesquisar" />
+      <ToggleButton id="dailyButton" focusTraversable="false" layoutX="342.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" stylesheets="@css/button/saleButton.css" text="Diário" />
+      <ToggleButton id="weeklyButton" focusTraversable="false" layoutX="413.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" stylesheets="@css/button/saleButton.css" text="Semanal" />
+      <ToggleButton id="monthlyButton" focusTraversable="false" layoutX="484.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" stylesheets="@css/button/saleButton.css" text="Mensal" />
+      <ToggleButton id="yearlyButton" focusTraversable="false" layoutX="555.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" stylesheets="@css/button/saleButton.css" text="Anual" />
+      <ToggleButton id="totalButton" focusTraversable="false" layoutX="626.0" layoutY="10.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="70.0" stylesheets="@css/button/saleButton.css" text="Total" />
+      <TableView layoutX="10.0" layoutY="45.0" prefHeight="200.0" prefWidth="686.0">
+         <columns>
+            <TableColumn prefWidth="91.0" text="ID Venda" />
+            <TableColumn prefWidth="200.0" text="Data de Venda" />
+            <TableColumn prefWidth="200.0" text="Funcionario" />
+            <TableColumn prefWidth="106.0" text="Valor" />
+            <TableColumn prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </TableColumn>
+            <TableColumn prefWidth="25.0">
+               <graphic>
+                  <ImageView fitHeight="20.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+               </graphic>
+            </TableColumn>
+         </columns>
+      </TableView>
+      <Label layoutX="10.0" layoutY="260.0" prefWidth="100.0" text="Total de Custo:" />
+      <TextField editable="false" layoutX="111.0" layoutY="256.0" prefWidth="56.0" text="20€" />
+      <Label layoutX="278.0" layoutY="260.0" prefWidth="100.0" text="Total de Venda:" />
+      <TextField editable="false" layoutX="379.0" layoutY="256.0" prefWidth="56.0" text="30€" />
+      <Label layoutX="539.0" layoutY="260.0" prefWidth="100.0" text="Total Ganho:" />
+      <TextField editable="false" layoutX="640.0" layoutY="256.0" prefWidth="56.0" text="50€" />
+   </children>
+</AnchorPane>

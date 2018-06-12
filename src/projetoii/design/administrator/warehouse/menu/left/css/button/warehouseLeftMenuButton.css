@@ -1,0 +1,121 @@
+/* Botão dos Produtos */
+#productButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#productButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#productButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#productButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}
+
+/* Botão das Categorias */
+#categoryButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#categoryButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#categoryButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#categoryButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}
+
+#brandButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#brandButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#brandButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#brandButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}
+
+#sizeButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#sizeButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#sizeButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#sizeButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}
+
+#colorButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#colorButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#colorButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#colorButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}

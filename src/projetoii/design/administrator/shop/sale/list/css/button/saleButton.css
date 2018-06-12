@@ -1,0 +1,123 @@
+#dailyButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#dailyButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#dailyButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#dailyButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: #039ed3;
+}
+
+
+#weeklyButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#weeklyButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#weeklyButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#weeklyButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 0 0 3;
+    -fx-border-color: #039ed3;
+}
+
+
+#monthlyButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#monthlyButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#monthlyButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#monthlyButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 3;
+    -fx-border-color: #039ed3;
+}
+
+
+#yearlyButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#yearlyButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#yearlyButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#yearlyButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#totalButton
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#totalButton:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#totalButton:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#totalButton:selected
+{
+    -fx-background-color: #1fbbef;
+    -fx-text-fill: #ffffff;
+    -fx-border-width: 0 3 0 0;
+    -fx-border-color: #039ed3;
+}

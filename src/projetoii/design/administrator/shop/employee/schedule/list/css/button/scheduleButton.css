@@ -1,0 +1,159 @@
+#segundaBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#segundaBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#segundaBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#segundaBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#tercaBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#tercaBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#tercaBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#tercaBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#quartaBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#quartaBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#quartaBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#quartaBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#quintaBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#quintaBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#quintaBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#quintaBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#sextaBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#sextaBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#sextaBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#sextaBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#sabadoBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#sabadoBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#sabadoBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#sabadoBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}
+
+
+#domingoBtn
+{
+    -fx-background-color: #E9E9E9;
+    -fx-background-radius: 0em;
+}
+
+#domingoBtn:hover
+{
+    -fx-background-color: #EFEFEF;
+}
+
+#domingoBtn:pressed
+{
+    -fx-background-color: #F7F7F7;
+}
+
+#domingoBtn:focused
+{
+    -fx-border-width: 0 0 3 0;
+    -fx-border-color: #039ed3;
+}

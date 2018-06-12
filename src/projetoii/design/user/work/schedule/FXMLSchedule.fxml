@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="290.0" prefWidth="706.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/9.0.1" fx:controller="projetoii.design.user.work.schedule.FXMLScheduleController">
+    <children>
+      <Pane prefHeight="40.0" prefWidth="467.0">
+         <children>
+            <TextField layoutX="10.0" layoutY="10.0" promptText="Pesquisar" />
+         </children>
+      </Pane>
+      <Pane layoutX="10.0" layoutY="50.0" prefHeight="250.0" prefWidth="457.0" AnchorPane.topAnchor="40.0">
+         <children>
+            <TableView prefHeight="242.0" prefWidth="457.0">
+              <columns>
+                <TableColumn prefWidth="130.0" text="Dia" />
+                <TableColumn prefWidth="108.0" text="Hora Entrada" />
+                  <TableColumn prefWidth="114.0" text="Hora Saída" />
+                  <TableColumn prefWidth="104.0" text="Horas Feitas" />
+              </columns>
+            </TableView>
+         </children>
+      </Pane>
+      <Pane layoutX="457.0" layoutY="14.0" prefHeight="284.0" prefWidth="240.0" AnchorPane.bottomAnchor="66.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+         <children>
+            <Pane prefHeight="127.0" prefWidth="239.0">
+               <children>
+                  <DatePicker layoutX="3.0" layoutY="40.0" prefHeight="25.0" prefWidth="115.0" promptText="Data de Inicio" />
+                  <DatePicker layoutX="123.0" layoutY="40.0" prefHeight="25.0" prefWidth="115.0" promptText="Data de Fim" />
+               </children></Pane>
+            <Button id="accountBtn" focusTraversable="false" layoutX="2.0" layoutY="249.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="166.0" stylesheets="@css/button/scheduleButton.css" text="&lt;&lt;Rafael Morais&gt;&gt;" textFill="WHITE" />
+            <Button id="closePointBtn" focusTraversable="false" layoutX="169.0" layoutY="249.0" mnemonicParsing="false" prefHeight="33.0" prefWidth="70.0" stylesheets="@css/button/scheduleButton.css" text="PONTO" textFill="WHITE" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

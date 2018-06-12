@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+
+<AnchorPane id="AnchorPane" prefHeight="290.0" prefWidth="706.0" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="projetoii.design.administrator.warehouse.reposition.current.list.FXMLListCurrentRepositionController">
+    <children>
+      <TableView layoutX="10.0" layoutY="10.0" prefHeight="210.0" prefWidth="686.0">
+         <columns>
+            <TableColumn prefWidth="22.0" text=" ">
+               <graphic>
+                  <CheckBox alignment="CENTER" contentDisplay="CENTER" mnemonicParsing="false" />
+               </graphic></TableColumn>
+            <TableColumn prefWidth="175.0" text="Código de Barras" />
+            <TableColumn prefWidth="247.0" text="Nome" />
+            <TableColumn prefWidth="125.0" text="Vendido" />
+            <TableColumn prefWidth="103.0" text="Stock" />
+            <TableColumn prefWidth="57.0" />
+         </columns>
+      </TableView>
+      <Pane layoutY="230.0" prefHeight="60.0" prefWidth="706.0" style="-fx-background-color: #e2e2e2;">
+         <children>
+            <Button layoutX="596.0" layoutY="18.0" mnemonicParsing="false" prefWidth="100.0" text="REPOR" />
+            <Button layoutX="10.0" layoutY="18.0" mnemonicParsing="false" prefWidth="100.0" text="HISTÓRICO" />
+         </children>
+      </Pane>
+   </children>
+</AnchorPane>

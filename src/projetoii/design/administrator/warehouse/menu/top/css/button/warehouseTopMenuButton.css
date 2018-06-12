@@ -1,0 +1,87 @@
+#warehouseButton
+{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#warehouseButton:hover
+{
+    -fx-background-color: #212123;
+}
+
+#warehouseButton:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#warehouseButton:selected
+{
+    -fx-text-fill: #099ed3;
+}
+
+#employeeButton
+{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#employeeButton:hover
+{
+    -fx-background-color: #212123;
+}
+
+#employeeButton:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#employeeButton:selected
+{
+    -fx-text-fill: #099ed3;
+}
+
+#repositionButton
+{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#repositionButton:hover
+{
+    -fx-background-color: #212123;
+}
+
+#repositionButton:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#repositionButton:selected
+{
+    -fx-text-fill: #099ed3;
+}
+
+#boxButton
+{
+    -fx-text-fill: #ffffff;
+    -fx-background-color: #2d2d2f;
+    -fx-background-radius: 0em;
+}
+
+#boxButton:hover
+{
+    -fx-background-color: #212123;
+}
+
+#boxButton:pressed
+{
+    -fx-background-color: #1c1c1e;
+}
+
+#boxButton:selected
+{
+    -fx-text-fill: #099ed3;
+}
