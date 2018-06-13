@@ -1,6 +1,8 @@
 package projetoii.design.administrator.warehouse.data.brand.add;
 
+import bll.BrandBLL;
 import dao.Marca;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -28,7 +30,7 @@ public class FXMLAddBrandController implements Initializable {
     
     private FXMLAddProductController addProductController;
     private FXMLListBrandController listBrandController;
-    private ObservableList<Marca> brandList;
+    private ObservableList<BrandBLL> brandList;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -40,9 +42,8 @@ public class FXMLAddBrandController implements Initializable {
         
     }    
  
-    
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<Marca> brandList)
+    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<BrandBLL> brandList)
     {
         setListAddProductController(addProductController);
         setObservableList(brandList);
@@ -55,7 +56,7 @@ public class FXMLAddBrandController implements Initializable {
     }
 
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnControllerCall(FXMLListBrandController listBrandController, ObservableList<Marca> brandList)
+    public void initializeOnControllerCall(FXMLListBrandController listBrandController, ObservableList<BrandBLL> brandList)
     {
         setListController(listBrandController);
         setObservableList(brandList);
@@ -68,7 +69,7 @@ public class FXMLAddBrandController implements Initializable {
     }
     
     /* * Sets observable list from a given observable list * */
-    private void setObservableList(ObservableList<Marca> productTypeList)
+    private void setObservableList(ObservableList<BrandBLL> productTypeList)
     {
         this.brandList = productTypeList;
     }
@@ -78,7 +79,7 @@ public class FXMLAddBrandController implements Initializable {
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         
-        Marca newBrand = new Marca();
+        BrandBLL newBrand = new BrandBLL();
         newBrand.setIdmarca((byte) (brandList.size() + 1));
         newBrand.setNome(StringUtils.capitalize(brandName.getText()));
         
@@ -148,14 +149,7 @@ public class FXMLAddBrandController implements Initializable {
     /* * Inserts entity into the database * */
     private void insertBrand(Marca brand)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        Transaction tx = session.beginTransaction();
-        session.save(brand);
-
-        tx.commit();
-        session.close();
-
+        HibernateGenericLibrary.saveObject(brand);
     }
     
     /* * Closes the stage on cancel button click * */

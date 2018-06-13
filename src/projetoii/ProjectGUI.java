@@ -10,6 +10,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.ClosingService;
 
 /**
  *
@@ -19,7 +20,8 @@ public class ProjectGUI extends Application {
     
     @Override
     public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
+       Parent root = FXMLLoader.load(getClass().getResource("design/administrator/menu/top/FXMLAdministratorTopMenu.fxml"));
+        //Parent root = FXMLLoader.load(getClass().getResource("FXMLDocument.fxml"));
         
         Scene scene = new Scene(root);
         
@@ -32,6 +34,11 @@ public class ProjectGUI extends Application {
      */
     public static void main(String[] args) {
         launch(args);
+    }
+
+    @Override
+    public void stop() throws Exception {
+        ClosingService.closeSession();
     }
     
 }
