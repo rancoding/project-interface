@@ -1,6 +1,7 @@
 package projetoii.design.administrator.warehouse.data.size.add;
 
-import dao.Tamanho;
+import bll.SizeBLL;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -14,10 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.product.add.FXMLAddProductController;
 import projetoii.design.administrator.warehouse.data.size.list.FXMLListSizeController;
+import services.SizeService;
 
 public class FXMLAddSizeController implements Initializable {
 
@@ -27,7 +27,7 @@ public class FXMLAddSizeController implements Initializable {
     
     private FXMLAddProductController addProductController;
     private FXMLListSizeController listSizeController;
-    private ObservableList<Tamanho> sizeList;
+    private ObservableList<SizeBLL> sizeList;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -40,7 +40,7 @@ public class FXMLAddSizeController implements Initializable {
     }
     
      /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<Tamanho> sizeList)
+    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<SizeBLL> sizeList)
     {
         setListAddProductController(addProductController);
         setObservableList(sizeList);
@@ -53,7 +53,7 @@ public class FXMLAddSizeController implements Initializable {
     }
     
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnControllerCall(FXMLListSizeController listSizeController, ObservableList<Tamanho> sizeList)
+    public void initializeOnControllerCall(FXMLListSizeController listSizeController, ObservableList<SizeBLL> sizeList)
     {
         setListController(listSizeController);
         setObservableList(sizeList);
@@ -66,7 +66,7 @@ public class FXMLAddSizeController implements Initializable {
     }
     
     /* * Sets observable list from a given observable list * */
-    private void setObservableList(ObservableList<Tamanho> sizeList)
+    private void setObservableList(ObservableList<SizeBLL> sizeList)
     {
         this.sizeList = sizeList;
     }
@@ -76,8 +76,8 @@ public class FXMLAddSizeController implements Initializable {
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         
-        Tamanho newSize = new Tamanho();
-        newSize.setIdtamanho((byte) (sizeList.size() + 1));
+        SizeBLL newSize = new SizeBLL();
+        //newSize.setIdtamanho((byte) (sizeList.size() + 1));
         newSize.setDescricao(sizeName.getText().toUpperCase().replaceAll(nonCharacters, ""));
         
         sizeList.add(newSize);
@@ -95,32 +95,13 @@ public class FXMLAddSizeController implements Initializable {
         closeStage(event);
     }
     
-    /* * Searches for a size with the same name as the new one in the size list * */
-    private boolean checkForExistentSize(String name, String nonCharacters)
-    {
-        if(!(sizeList.isEmpty()))
-        {
-            for(Tamanho size : sizeList)
-            {
-                String sizeName = StringUtils.stripAccents(size.getDescricao().replaceAll(nonCharacters, "").toLowerCase());
-
-                if(name.equals(sizeName))
-                {
-                    return true;
-                }
-            }
-        }
-            
-        return false;
-    }
-    
     /* * Enables or disables the button * */
     @FXML void setAddButtonUsability()
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         String newSizeName = StringUtils.stripAccents(sizeName.getText().replaceAll(nonCharacters, "").toLowerCase());
         
-        boolean exists = checkForExistentSize(newSizeName, nonCharacters);
+        boolean exists = SizeService.checkForExistentSize(sizeList, newSizeName, nonCharacters);
        
         if(sizeName.getText().isEmpty())
         {
@@ -143,15 +124,9 @@ public class FXMLAddSizeController implements Initializable {
     }
     
     /* * Inserts entity into the database * */
-    private void insertSize(Tamanho size)
+    private void insertSize(SizeBLL size)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        Transaction tx = session.beginTransaction();
-        session.save(size);
-
-        tx.commit();
-        session.close();
+        HibernateGenericLibrary.saveObject(size);
     }
     
     /* * Closes the stage on cancel button click * */

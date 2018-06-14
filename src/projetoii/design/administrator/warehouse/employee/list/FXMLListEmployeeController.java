@@ -1,5 +1,6 @@
 package projetoii.design.administrator.warehouse.employee.list;
 
+import bll.EmployeeBLL;
 import dao.Funcionario;
 import hibernate.HibernateUtil;
 import java.net.URL;
@@ -28,28 +29,25 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Criteria;
-import org.hibernate.Hibernate;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import projetoii.design.administrator.menu.top.FXMLAdministratorTopMenuController;
 import projetoii.design.administrator.warehouse.employee.add.FXMLAddEmployeeController;
 import projetoii.design.administrator.warehouse.employee.edit.FXMLEditEmployeeController;
 import projetoii.design.administrator.warehouse.employee.list.detail.FXMLEmployeeDetailController;
 import projetoii.design.administrator.warehouse.employee.schedule.list.FXMLEmployeeSchedulePointController;
+import services.EmployeeService;
 
 public class FXMLListEmployeeController implements Initializable {
 
     /* Variables used for setting up the table content */
-    @FXML public TableView<Funcionario> employeeTable;
-    @FXML private TableColumn<Funcionario, String> nameColumn;
-    @FXML private TableColumn<Funcionario, Date> birthdayColumn;
-    @FXML private TableColumn<Funcionario, String> genderColumn;
-    @FXML private TableColumn<Funcionario, String> workingColumn;
-    @FXML private TableColumn<Funcionario, String> editColumn;
-    @FXML private TableColumn<Funcionario, String> scheduleColumn;
-    @FXML private TableColumn<Funcionario, String> detailColumn;
-    private ObservableList<Funcionario> employeeObservableList;
+    @FXML public TableView<EmployeeBLL> employeeTable;
+    @FXML private TableColumn<EmployeeBLL, String> nameColumn;
+    @FXML private TableColumn<EmployeeBLL, Date> birthdayColumn;
+    @FXML private TableColumn<EmployeeBLL, String> genderColumn;
+    @FXML private TableColumn<EmployeeBLL, String> workingColumn;
+    @FXML private TableColumn<EmployeeBLL, String> editColumn;
+    @FXML private TableColumn<EmployeeBLL, String> scheduleColumn;
+    @FXML private TableColumn<EmployeeBLL, String> detailColumn;
+    private ObservableList<EmployeeBLL> employeeObservableList;
     
     /* Text field used to search employees on the table, updating as it searches */
     @FXML private TextField searchEmployeeTextField;
@@ -57,36 +55,26 @@ public class FXMLListEmployeeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        /* Initializes and opens the database session using hibernate */
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        /* Retrieves all database product types to an arraylist and initializes the table values if it is not empty */
-        Criteria cr = session.createCriteria(Funcionario.class);
-        cr.add(Restrictions.like("localtrabalho.idlocaltrabalho", FXMLAdministratorTopMenuController.getWorkLocationId()));
-        List<Funcionario> employeeList = cr.list();
-            
+        List<EmployeeBLL> employeeList = EmployeeService.getWorkLocationEmployeeList(FXMLAdministratorTopMenuController.getWorkLocationId());
         
         if(!(employeeList.isEmpty()))
         {
-            for(Funcionario e : employeeList)
+            /*for(Funcionario e : employeeList)
             {
                 Hibernate.initialize(e.getHorario());
-            }
+            }*/
             
             initializeTable(employeeList);
         }
         else
         {
-            employeeList = new ArrayList<Funcionario>();
+            employeeList = new ArrayList<>();
             initializeTable(employeeList);
         }
-        
-        /* Closes the database connection */
-        session.close();
     }
     
     /** Initializes all table content for the first time **/
-    private void initializeTable(List<Funcionario> employeeList)
+    private void initializeTable(List<EmployeeBLL> employeeList)
     {
         /* Sets column variables to use entity info, empty for a button creation */
         this.nameColumn.setCellValueFactory(new PropertyValueFactory<>("nome"));
@@ -116,7 +104,7 @@ public class FXMLListEmployeeController implements Initializable {
     }
     
     /* * Sets the table items to be the same as the observable list items * */
-    private void setTableItems(ObservableList<Funcionario> employeeObservableList)
+    private void setTableItems(ObservableList<EmployeeBLL> employeeObservableList)
     {
         this.employeeTable.setItems(employeeObservableList);
     }
@@ -124,13 +112,13 @@ public class FXMLListEmployeeController implements Initializable {
     /* Creates a button for each table cell, also setting up an image for each button (with a different hover image and size) */
     private Callback getButtonCell(Class controller, String file, String title, String message, Image image, Image imageHover)
     {
-        Callback<TableColumn<Funcionario, String>, TableCell<Funcionario, String>> cellFactory;
-        cellFactory = new Callback<TableColumn<Funcionario, String>, TableCell<Funcionario, String>>()
+        Callback<TableColumn<EmployeeBLL, String>, TableCell<EmployeeBLL, String>> cellFactory;
+        cellFactory = new Callback<TableColumn<EmployeeBLL, String>, TableCell<EmployeeBLL, String>>()
         {
             @Override
-            public TableCell call(final TableColumn<Funcionario, String> param)
+            public TableCell call(final TableColumn<EmployeeBLL, String> param)
             {
-                final TableCell<Funcionario, String> cell = new TableCell<Funcionario, String>()
+                final TableCell<EmployeeBLL, String> cell = new TableCell<EmployeeBLL, String>()
                 {
                     final Button button = new Button();
                     
@@ -147,7 +135,7 @@ public class FXMLListEmployeeController implements Initializable {
                         {
                             /* Sets an action depending on the passed controller */
                             button.setOnAction((event) -> {
-                                Funcionario employee = getTableView().getItems().get(getIndex());
+                                EmployeeBLL employee = getTableView().getItems().get(getIndex());
                                 
                                 if(controller.equals(FXMLEditEmployeeController.class))
                                 {
@@ -240,7 +228,7 @@ public class FXMLListEmployeeController implements Initializable {
     }
     
     /* * Loads a new edit window * */
-    private void loadNewEditWindow(Class controller, String fileName, String title, String message, Funcionario employee)
+    private void loadNewEditWindow(Class controller, String fileName, String title, String message, EmployeeBLL employee)
     {
         try
         {
@@ -310,7 +298,7 @@ public class FXMLListEmployeeController implements Initializable {
     @FXML
     void getSearchList()
     {
-        List<Funcionario> employeeList = new ArrayList<>();
+        List<EmployeeBLL> employeeList = new ArrayList<>();
             
         /* If something has been typed, tries to find an existent employee with the given name or ID */
         if(searchEmployeeTextField.getText().length() > 0)
@@ -319,7 +307,7 @@ public class FXMLListEmployeeController implements Initializable {
             
             String nonCharacters = "[^\\p{L}\\p{Nd}]";
             
-            for(Funcionario employee : employeeObservableList)
+            for(EmployeeBLL employee : employeeObservableList)
             {
                 String searchString = StringUtils.stripAccents(searchEmployeeTextField.getText().replaceAll(nonCharacters, "").toLowerCase());
                 
@@ -344,9 +332,9 @@ public class FXMLListEmployeeController implements Initializable {
     }
     
     /* * Sets new table values * */
-    public void setSearchedTableValues(List<Funcionario> employeeList)
+    public void setSearchedTableValues(List<EmployeeBLL> employeeList)
     {
-        ObservableList<Funcionario> newEmployeeObservableList;
+        ObservableList<EmployeeBLL> newEmployeeObservableList;
         newEmployeeObservableList = FXCollections.observableArrayList(employeeList);
         setTableItems(newEmployeeObservableList);
     }  

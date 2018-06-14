@@ -5,6 +5,7 @@
  */
 package projetoii.design.administrator.warehouse.box.list;
 
+import bll.ProductBLL;
 import dao.Produto;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -20,8 +21,8 @@ import projetoii.design.administrator.warehouse.data.product.list.FXMLListProduc
 public class FXMLListBoxController implements Initializable {
 
     private FXMLListProductController listProductController;
-    private ObservableList<Produto> productList;
-    private Produto product;
+    private ObservableList<ProductBLL> productList;
+    private ProductBLL product;
     
     /**
      * Initializes the controller class.
@@ -31,7 +32,7 @@ public class FXMLListBoxController implements Initializable {
         // TODO
     }    
     
-    public void initializeOnControllerCall(FXMLListProductController listProductController, ObservableList<Produto> productList, Produto product)
+    public void initializeOnControllerCall(FXMLListProductController listProductController, ObservableList<ProductBLL> productList, ProductBLL product)
     {
         /* Sets all variables accordingly to received parameters */
         setListCategoryController(listProductController);
@@ -45,12 +46,12 @@ public class FXMLListBoxController implements Initializable {
         this.listProductController = listProductController;
     }
     
-    private void setProductTypeList(ObservableList<Produto> productList)
+    private void setProductTypeList(ObservableList<ProductBLL> productList)
     {
         this.productList = productList;
     }
     
-    private void setProductType(Produto product)
+    private void setProductType(ProductBLL product)
     {
         this.product = product;
     }

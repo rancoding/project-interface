@@ -5,10 +5,11 @@
  */
 package projetoii.design.administrator.warehouse.data.brand.edit;
 
-import dao.Marca;
-import hibernate.HibernateUtil;
+import bll.BrandBLL;
+import hibernate.HibernateGenericLibrary;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.brand.list.FXMLListBrandController;
+import services.BrandService;
 
 /**
  * FXML Controller class
@@ -39,8 +39,8 @@ public class FXMLEditBrandController implements Initializable {
     
     /* Controller to be able to refresh the table on edit button click, and brand list to be able to edit and search for existent brands */
     private FXMLListBrandController listBrandController;
-    private ObservableList<Marca> brandList;
-    private Marca brand;
+    private ObservableList<BrandBLL> brandList;
+    private BrandBLL brand;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -49,7 +49,7 @@ public class FXMLEditBrandController implements Initializable {
     }    
     
     /* * To be called when needing to initialize values from the list brand controller * */
-    public void initializeOnControllerCall(FXMLListBrandController listBrandController, ObservableList<Marca> brandList, Marca brand)
+    public void initializeOnControllerCall(FXMLListBrandController listBrandController, ObservableList<BrandBLL> brandList, BrandBLL brand)
     {
         /* Sets all variables accordingly to received parameters */
         setListBrandController(listBrandController);
@@ -63,12 +63,12 @@ public class FXMLEditBrandController implements Initializable {
         this.listBrandController = listBrandController;
     }
     
-    private void setBrandList(ObservableList<Marca> brandList)
+    private void setBrandList(ObservableList<BrandBLL> brandList)
     {
         this.brandList = brandList;
     }
     
-    private void setBrand(Marca brand)
+    private void setBrand(BrandBLL brand)
     {
         this.brand = brand;
     }
@@ -88,25 +88,6 @@ public class FXMLEditBrandController implements Initializable {
         
         this.listBrandController.brandTable.refresh();
         closeStage(event);
-    }
-    
-    /* * Checks if the brand name typed in the text field already exists * */
-    private boolean checkIfNameExists(String name, String nonCharacters)
-    {
-        for(Marca b : brandList)
-        {
-            if(b.getIdmarca() != brand.getIdmarca())
-            {
-                String brandName = StringUtils.stripAccents(b.getNome().replaceAll(nonCharacters, "").toLowerCase());
-                
-                if(name.equals(brandName))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
     }
     
     /* * If brand name exists, disables edit button and shows an error in a label * */
@@ -133,7 +114,7 @@ public class FXMLEditBrandController implements Initializable {
         {
             if(!(editedBrandName.equals(searchBrandName)))
             {
-                boolean exists = checkIfNameExists(editedBrandName, nonCharacters);
+                boolean exists = BrandService.checkIfNameExists(brandList, brand, editedBrandName, nonCharacters);
 
                 if(exists)
                 {
@@ -164,17 +145,12 @@ public class FXMLEditBrandController implements Initializable {
     /* * Updates entity on database * */
     private void updateBrand()
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<BrandBLL> brands = HibernateGenericLibrary.executeHQLQuery("FROM Marca WHERE idmarca = " + brand.getIdmarca());
         
-        Transaction tx = session.beginTransaction();
+        BrandBLL oldBrand = brands.get(0);
+        oldBrand.setNome(brand.getNome());
         
-        Marca brandUpdate = (Marca)session.get(Marca.class, brand.getIdmarca());
-        brandUpdate.setNome(brand.getNome());
-        
-        session.update(brandUpdate);
-        tx.commit();
-        
-        session.close();
+        HibernateGenericLibrary.updateObject(oldBrand);
     }
     
     /* * Closes the stage on cancel button click * */

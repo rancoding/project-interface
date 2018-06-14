@@ -5,6 +5,8 @@
  */
 package projetoii.design.administrator.warehouse.employee.edit;
 
+import bll.EmployeeBLL;
+import bll.ScheduleBLL;
 import dao.Funcionario;
 import dao.Horario;
 import hibernate.HibernateUtil;
@@ -20,21 +22,18 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.DatePicker;
-import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.cell.TextFieldTableCell;
 import javafx.stage.Stage;
-import javafx.util.Callback;
 import javafx.util.StringConverter;
-import org.hibernate.Session;
 import projetoii.design.administrator.warehouse.employee.list.FXMLListEmployeeController;
+import services.ScheduleService;
 
 public class FXMLEditEmployeeController implements Initializable {
 
@@ -51,25 +50,23 @@ public class FXMLEditEmployeeController implements Initializable {
     
     /* Controller to be able to refresh the table on edit button click, and color list to be able to edit and search for existent color */
     private FXMLListEmployeeController listEmployeeController;
-    private ObservableList<Funcionario> employeeList;
+    private ObservableList<EmployeeBLL> employeeList;
     private Funcionario employee;
     
     /* Variables used for setting up the table content */
-    @FXML public TableView<Horario> scheduleTable;
-    @FXML private TableColumn<Horario, Date> firstEntranceColumn;
-    @FXML private TableColumn<Horario, Date> firstExitColumn;
-    @FXML private TableColumn<Horario, Date> secondEntranceColumn;
-    @FXML private TableColumn<Horario, Date> secondExitColumn;
-    private ObservableList<Horario> scheduleObservableList; 
-    private List<Horario> scheduleList;
+    @FXML public TableView<ScheduleBLL> scheduleTable;
+    @FXML private TableColumn<ScheduleBLL, Date> firstEntranceColumn;
+    @FXML private TableColumn<ScheduleBLL, Date> firstExitColumn;
+    @FXML private TableColumn<ScheduleBLL, Date> secondEntranceColumn;
+    @FXML private TableColumn<ScheduleBLL, Date> secondExitColumn;
+    private ObservableList<ScheduleBLL> scheduleObservableList; 
+    private List<ScheduleBLL> scheduleList;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
         /* Retrieves all database product types to an arraylist and initializes the table values if it is not empty */
-        scheduleList = session.createCriteria(Horario.class).list();
+        scheduleList = ScheduleService.getConvertedScheduleList();
         
         if(!(scheduleList.isEmpty()))
         {
@@ -80,11 +77,10 @@ public class FXMLEditEmployeeController implements Initializable {
             scheduleList = new ArrayList<>();
             initializeTable(scheduleList);
         }
-        session.close();
     }    
     
     /* * Initializes variables when called from other controller * */
-    public void initializeOnControllerCall(FXMLListEmployeeController listEmployeeController, ObservableList<Funcionario> employeeList, Funcionario employee)
+    public void initializeOnControllerCall(FXMLListEmployeeController listEmployeeController, ObservableList<EmployeeBLL> employeeList, EmployeeBLL employee)
     {
         setListEmployeeController(listEmployeeController);
         setEmployeeList(employeeList);
@@ -97,12 +93,12 @@ public class FXMLEditEmployeeController implements Initializable {
         this.listEmployeeController = listEmployeeController;
     }
     
-    private void setEmployeeList(ObservableList<Funcionario> employeeList)
+    private void setEmployeeList(ObservableList<EmployeeBLL> employeeList)
     {
         this.employeeList = employeeList;
     }
     
-    private void setEmployee(Funcionario employee)
+    private void setEmployee(EmployeeBLL employee)
     {
         this.employee = employee;
     }
@@ -125,7 +121,7 @@ public class FXMLEditEmployeeController implements Initializable {
         String activeText = getActiveFullText(employee.isActivo());
         activeBox.setValue(activeText);
         
-        Horario schedule = employee.getHorario();
+        ScheduleBLL schedule = (ScheduleBLL) employee.getHorario();
         
         firstEntranceField.setText( getDateTime(schedule.getHoraprimeiraentrada()) );
         firstExitField.setText( getDateTime(schedule.getHoraprimeirasaida()) );
@@ -205,7 +201,7 @@ public class FXMLEditEmployeeController implements Initializable {
     }
     
     /** Initializes all table content for the first time **/
-    private void initializeTable(List<Horario> scheduleList)
+    private void initializeTable(List<ScheduleBLL> scheduleList)
     {
         /* Sets column variables to use entity info, empty for a button creation */
         this.firstEntranceColumn.setCellValueFactory(new PropertyValueFactory<>("horaprimeiraentrada"));
@@ -221,7 +217,7 @@ public class FXMLEditEmployeeController implements Initializable {
     }
     
     /* * Sets the table items to be the same as the observable list items * */
-    private void setTableItems(ObservableList<Horario> scheduleObservableList)
+    private void setTableItems(ObservableList<ScheduleBLL> scheduleObservableList)
     {
         this.scheduleTable.setItems(scheduleObservableList);
     }

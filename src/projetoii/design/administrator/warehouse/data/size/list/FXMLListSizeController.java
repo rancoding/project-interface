@@ -5,6 +5,7 @@
  */
 package projetoii.design.administrator.warehouse.data.size.list;
 
+import bll.SizeBLL;
 import dao.Tamanho;
 import hibernate.HibernateUtil;
 import java.net.URL;
@@ -32,18 +33,18 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 import projetoii.design.administrator.warehouse.data.size.add.FXMLAddSizeController;
 import projetoii.design.administrator.warehouse.data.size.edit.FXMLEditSizeController;
+import services.SizeService;
 
 public class FXMLListSizeController implements Initializable {
 
     /* Variables used for setting up the table content */
-    @FXML public TableView<Tamanho> sizeTable;
-    @FXML private TableColumn<Tamanho, Byte> idColumn;
-    @FXML private TableColumn<Tamanho, String> nameColumn;
-    @FXML private TableColumn<Tamanho, String> editColumn;
-    private ObservableList<Tamanho> sizeObservableList;
+    @FXML public TableView<SizeBLL> sizeTable;
+    @FXML private TableColumn<SizeBLL, Byte> idColumn;
+    @FXML private TableColumn<SizeBLL, String> nameColumn;
+    @FXML private TableColumn<SizeBLL, String> editColumn;
+    private ObservableList<SizeBLL> sizeObservableList;
     
     /* Text field used to search sizes on the table, updating as it searches */
     @FXML private TextField searchSizeTextField;
@@ -51,11 +52,8 @@ public class FXMLListSizeController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        /* Initializes and opens the database session using hibernate */
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
         /* Retrieves all database sizes to an arraylist and initializes the table values if it is not empty */
-        List<Tamanho> sizeList = session.createCriteria(Tamanho.class).list();
+        List<SizeBLL> sizeList = SizeService.getConvertedSizeList();
         
         if(!(sizeList.isEmpty()))
         {
@@ -63,17 +61,14 @@ public class FXMLListSizeController implements Initializable {
         }
         else
         {
-            sizeList = new ArrayList<Tamanho>();
+            sizeList = new ArrayList<>();
             initializeTable(sizeList);
         }
-        
-        /* Closes the database connection */
-        session.close();
     }   
     
     
     /** Initializes all table content for the first time **/
-    private void initializeTable(List<Tamanho> sizeList)
+    private void initializeTable(List<SizeBLL> sizeList)
     {
         /* Sets column variables to use entity info, empty for a button creation */
         this.idColumn.setCellValueFactory(new PropertyValueFactory<>("idtamanho"));
@@ -91,7 +86,7 @@ public class FXMLListSizeController implements Initializable {
     }
     
     /* * Sets the table items to be the same as the observable list items * */
-    private void setTableItems(ObservableList<Tamanho> sizeObservableList)
+    private void setTableItems(ObservableList<SizeBLL> sizeObservableList)
     {
         this.sizeTable.setItems(sizeObservableList);
     }
@@ -99,13 +94,13 @@ public class FXMLListSizeController implements Initializable {
     /* Creates a button for each table cell, also setting up an image for each button (with a different hover image and size) */
     private Callback getButtonCell(Image image, Image imageHover)
     {
-        Callback<TableColumn<Tamanho, String>, TableCell<Tamanho, String>> cellFactory;
-        cellFactory = new Callback<TableColumn<Tamanho, String>, TableCell<Tamanho, String>>()
+        Callback<TableColumn<SizeBLL, String>, TableCell<SizeBLL, String>> cellFactory;
+        cellFactory = new Callback<TableColumn<SizeBLL, String>, TableCell<SizeBLL, String>>()
         {
             @Override
-            public TableCell call(final TableColumn<Tamanho, String> param)
+            public TableCell call(final TableColumn<SizeBLL, String> param)
             {
-                final TableCell<Tamanho, String> cell = new TableCell<Tamanho, String>()
+                final TableCell<SizeBLL, String> cell = new TableCell<SizeBLL, String>()
                 {
                     final Button button = new Button();
                     
@@ -122,7 +117,7 @@ public class FXMLListSizeController implements Initializable {
                         {
                             /* On edit button, opens an edit size window with the row size info and the list of existent size */
                             button.setOnAction((event) -> {
-                                Tamanho size = getTableView().getItems().get(getIndex());
+                                SizeBLL size = getTableView().getItems().get(getIndex());
                                 loadNewEditWindow(FXMLEditSizeController.class, "FXMLEditSize.fxml", "Armazém - Editar Tamanho", "Não foi possível carregar o ficheiro FXMLEditSize.fxml", size);
                             });
                             
@@ -202,7 +197,7 @@ public class FXMLListSizeController implements Initializable {
     }
     
     /* * Loads a new edit window * */
-    private void loadNewEditWindow(Class controller, String fileName, String title, String message, Tamanho size)
+    private void loadNewEditWindow(Class controller, String fileName, String title, String message, SizeBLL size)
     {
         try
         {
@@ -227,7 +222,7 @@ public class FXMLListSizeController implements Initializable {
     @FXML
     void getSearchList()
     {
-        List<Tamanho> sizeList = new ArrayList<>();
+        List<SizeBLL> sizeList = new ArrayList<>();
             
         /* If something has been typed, tries to find an existent size with the given name or ID */
         if(searchSizeTextField.getText().length() > 0)
@@ -236,7 +231,7 @@ public class FXMLListSizeController implements Initializable {
             
             String nonCharacters = "[^\\p{L}\\p{Nd}]";
             
-            for(Tamanho size : sizeObservableList)
+            for(SizeBLL size : sizeObservableList)
             {
                 String searchString = StringUtils.stripAccents(searchSizeTextField.getText().replaceAll(nonCharacters, "").toLowerCase());
                 
@@ -261,9 +256,9 @@ public class FXMLListSizeController implements Initializable {
     }
     
     /* * Sets new table values * */
-    public void setSearchedTableValues(List<Tamanho> sizeList)
+    public void setSearchedTableValues(List<SizeBLL> sizeList)
     {
-        ObservableList<Tamanho> newSizeObservableList;
+        ObservableList<SizeBLL> newSizeObservableList;
         newSizeObservableList = FXCollections.observableArrayList(sizeList);
         setTableItems(newSizeObservableList);
     }

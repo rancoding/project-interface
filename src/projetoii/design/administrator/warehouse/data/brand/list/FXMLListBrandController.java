@@ -5,8 +5,7 @@
  */
 package projetoii.design.administrator.warehouse.data.brand.list;
 
-import dao.Marca;
-import hibernate.HibernateUtil;
+import bll.BrandBLL;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -32,11 +31,9 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 import projetoii.design.administrator.warehouse.data.brand.add.FXMLAddBrandController;
 import projetoii.design.administrator.warehouse.data.brand.edit.FXMLEditBrandController;
-import projetoii.design.administrator.warehouse.data.category.add.FXMLAddCategoryController;
-import projetoii.design.administrator.warehouse.data.category.edit.FXMLEditCategoryController;
+import services.BrandService;
 
 /**
  * FXML Controller class
@@ -46,11 +43,11 @@ import projetoii.design.administrator.warehouse.data.category.edit.FXMLEditCateg
 public class FXMLListBrandController implements Initializable {
 
     /* Variables used for setting up the table content */
-    @FXML public TableView<Marca> brandTable;
-    @FXML private TableColumn<Marca, Byte> idColumn;
-    @FXML private TableColumn<Marca, String> nameColumn;
-    @FXML private TableColumn<Marca, String> editColumn;
-    private ObservableList<Marca> brandObservableList;
+    @FXML public TableView<BrandBLL> brandTable;
+    @FXML private TableColumn<BrandBLL, Byte> idColumn;
+    @FXML private TableColumn<BrandBLL, String> nameColumn;
+    @FXML private TableColumn<BrandBLL, String> editColumn;
+    private ObservableList<BrandBLL> brandObservableList;
     
     /* Text field used to search brands on the table, updating as it searches */
     @FXML private TextField searchBrandTextField;
@@ -58,11 +55,7 @@ public class FXMLListBrandController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        /* Initializes and opens the database session using hibernate */
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        /* Retrieves all database brands to an arraylist and initializes the table values if it is not empty */
-        List<Marca> brandList = session.createCriteria(Marca.class).list();
+        List<BrandBLL> brandList = BrandService.getConvertedBrandList();
         
         if(!(brandList.isEmpty()))
         {
@@ -70,16 +63,13 @@ public class FXMLListBrandController implements Initializable {
         }
         else
         {
-            brandList = new ArrayList<Marca>();
+            brandList = new ArrayList<>();
             initializeTable(brandList);
         }
-        
-        /* Closes the database connection */
-        session.close();
     }
     
     /** Initializes all table content for the first time **/
-    private void initializeTable(List<Marca> brandList)
+    private void initializeTable(List<BrandBLL> brandList)
     {
         /* Sets column variables to use entity info, empty for a button creation */
         this.idColumn.setCellValueFactory(new PropertyValueFactory<>("idmarca"));
@@ -97,7 +87,7 @@ public class FXMLListBrandController implements Initializable {
     }
     
     /* * Sets the table items to be the same as the observable list items * */
-    private void setTableItems(ObservableList<Marca> brandObservableList)
+    private void setTableItems(ObservableList<BrandBLL> brandObservableList)
     {
         this.brandTable.setItems(brandObservableList);
     }
@@ -105,13 +95,13 @@ public class FXMLListBrandController implements Initializable {
     /* Creates a button for each table cell, also setting up an image for each button (with a different hover image and size) */
     private Callback getButtonCell(Image image, Image imageHover)
     {
-        Callback<TableColumn<Marca, String>, TableCell<Marca, String>> cellFactory;
-        cellFactory = new Callback<TableColumn<Marca, String>, TableCell<Marca, String>>()
+        Callback<TableColumn<BrandBLL, String>, TableCell<BrandBLL, String>> cellFactory;
+        cellFactory = new Callback<TableColumn<BrandBLL, String>, TableCell<BrandBLL, String>>()
         {
             @Override
-            public TableCell call(final TableColumn<Marca, String> param)
+            public TableCell call(final TableColumn<BrandBLL, String> param)
             {
-                final TableCell<Marca, String> cell = new TableCell<Marca, String>()
+                final TableCell<BrandBLL, String> cell = new TableCell<BrandBLL, String>()
                 {
                     final Button button = new Button();
                     
@@ -128,7 +118,7 @@ public class FXMLListBrandController implements Initializable {
                         {
                             /* On edit button, opens an edit category window with the row brand info and the list of existent brands */
                             button.setOnAction((event) -> {
-                                Marca brand = getTableView().getItems().get(getIndex());
+                                BrandBLL brand = getTableView().getItems().get(getIndex());
                                 loadNewEditWindow(FXMLEditBrandController.class, "FXMLEditBrand.fxml", "Armazém - Editar Marca", "Não foi possível carregar o ficheiro FXMLEditBrand.fxml", brand);
                             });
                             
@@ -209,7 +199,7 @@ public class FXMLListBrandController implements Initializable {
     }
     
     /* * Loads a new edit window * */
-    private void loadNewEditWindow(Class controller, String fileName, String title, String message, Marca brand)
+    private void loadNewEditWindow(Class controller, String fileName, String title, String message, BrandBLL brand)
     {
         try
         {
@@ -234,7 +224,7 @@ public class FXMLListBrandController implements Initializable {
     @FXML
     void getSearchList()
     {
-        List<Marca> brandList = new ArrayList<>();
+        List<BrandBLL> brandList = new ArrayList<>();
             
         /* If something has been typed, tries to find an existent brand with the given name or ID */
         if(searchBrandTextField.getText().length() > 0)
@@ -243,7 +233,7 @@ public class FXMLListBrandController implements Initializable {
             
             String nonCharacters = "[^\\p{L}\\p{Nd}]";
             
-            for(Marca brand : brandObservableList)
+            for(BrandBLL brand : brandObservableList)
             {
                 String searchString = StringUtils.stripAccents(searchBrandTextField.getText().replaceAll(nonCharacters, "").toLowerCase());
                 
@@ -268,9 +258,9 @@ public class FXMLListBrandController implements Initializable {
     }
     
     /* * Sets new table values * */
-    public void setSearchedTableValues(List<Marca> brandList)
+    public void setSearchedTableValues(List<BrandBLL> brandList)
     {
-        ObservableList<Marca> newBrandObservableList;
+        ObservableList<BrandBLL> newBrandObservableList;
         newBrandObservableList = FXCollections.observableArrayList(brandList);
         setTableItems(newBrandObservableList);
     }

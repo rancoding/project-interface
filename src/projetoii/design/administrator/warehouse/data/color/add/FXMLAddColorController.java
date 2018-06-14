@@ -1,8 +1,7 @@
 package projetoii.design.administrator.warehouse.data.color.add;
 
-import dao.Cor;
-import dao.Tamanho;
-import dao.Tipoproduto;
+import bll.ColorBLL;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -16,10 +15,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.color.list.FXMLListColorController;
 import projetoii.design.administrator.warehouse.data.product.add.FXMLAddProductController;
+import services.ColorService;
 
 public class FXMLAddColorController implements Initializable {
 
@@ -29,7 +27,7 @@ public class FXMLAddColorController implements Initializable {
     
     private FXMLAddProductController addProductController;
     private FXMLListColorController listColorController;
-    private ObservableList<Cor> colorList;
+    private ObservableList<ColorBLL> colorList;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -38,7 +36,7 @@ public class FXMLAddColorController implements Initializable {
     }    
    
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<Cor> colorList)
+    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<ColorBLL> colorList)
     {
         setListAddProductController(addProductController);
         setObservableList(colorList);
@@ -52,7 +50,7 @@ public class FXMLAddColorController implements Initializable {
     
     
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnControllerCall(FXMLListColorController listColorController, ObservableList<Cor> colorList)
+    public void initializeOnControllerCall(FXMLListColorController listColorController, ObservableList<ColorBLL> colorList)
     {
         setListController(listColorController);
         setObservableList(colorList);
@@ -65,7 +63,7 @@ public class FXMLAddColorController implements Initializable {
     }
     
     /* * Sets observable list from a given observable list * */
-    private void setObservableList(ObservableList<Cor> colorList)
+    private void setObservableList(ObservableList<ColorBLL> colorList)
     {
         this.colorList = colorList;
     }
@@ -75,8 +73,8 @@ public class FXMLAddColorController implements Initializable {
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         
-        Cor newColor = new Cor();
-        newColor.setIdcor((byte) (colorList.size() + 1));
+        ColorBLL newColor = new ColorBLL();
+        //newColor.setIdcor((byte) (colorList.size() + 1));
         newColor.setNome(StringUtils.capitalize(colorName.getText()).replaceAll(nonCharacters, ""));
         
         colorList.add(newColor);
@@ -95,32 +93,13 @@ public class FXMLAddColorController implements Initializable {
         closeStage(event);
     }
     
-    /* * Searches for a color with the same name as the new one in the color list * */
-    private boolean checkForExistentColor(String name, String nonCharacters)
-    {
-        if(!(colorList.isEmpty()))
-        {
-            for(Cor color : colorList)
-            {
-                String searchColorName = StringUtils.stripAccents(color.getNome().replaceAll(nonCharacters, "").toLowerCase());
-
-                if(name.equals(searchColorName))
-                {
-                    return true;
-                }
-            }
-        }
-            
-        return false;
-    }
-    
     /* * Enables or disables the button * */
     @FXML void setAddButtonUsability()
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         String newColorName = StringUtils.stripAccents(colorName.getText().replaceAll(nonCharacters, "").toLowerCase());
         
-        boolean exists = checkForExistentColor(newColorName, nonCharacters);
+        boolean exists = ColorService.checkForExistentColor(colorList, newColorName, nonCharacters);
        
         if(colorName.getText().isEmpty())
         {
@@ -143,15 +122,9 @@ public class FXMLAddColorController implements Initializable {
     }
     
     /* * Inserts entity into the database * */
-    private void insertColor(Cor color)
+    private void insertColor(ColorBLL color)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        Transaction tx = session.beginTransaction();
-        session.save(color);
-
-        tx.commit();
-        session.close();
+        HibernateGenericLibrary.saveObject(color);
     }
     
     /* * Closes the stage on cancel button click * */

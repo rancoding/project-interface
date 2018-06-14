@@ -1,7 +1,8 @@
 package projetoii.design.administrator.warehouse.data.category.add;
 
-import dao.Cor;
+import bll.CategoryBLL;
 import dao.Tipoproduto;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -15,10 +16,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.category.list.FXMLListCategoryController;
 import projetoii.design.administrator.warehouse.data.product.add.FXMLAddProductController;
+import services.CategoryService;
 
 public class FXMLAddCategoryController implements Initializable {
     
@@ -28,7 +28,7 @@ public class FXMLAddCategoryController implements Initializable {
     
     private FXMLAddProductController addProductController;
     private FXMLListCategoryController listCategoryController;
-    private ObservableList<Tipoproduto> productTypeList;
+    private ObservableList<CategoryBLL> productTypeList;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -36,7 +36,7 @@ public class FXMLAddCategoryController implements Initializable {
         addCategoryButton.setDisable(true);
     }    
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<Tipoproduto> typeList)
+    public void initializeOnAddProductControllerCall(FXMLAddProductController addProductController, ObservableList<CategoryBLL> typeList)
     {
         setListAddProductController(addProductController);
         setObservableList(typeList);
@@ -49,7 +49,7 @@ public class FXMLAddCategoryController implements Initializable {
     }
     
     /* * Initializes all variables when getting called from another controller * */
-    public void initializeOnControllerCall(FXMLListCategoryController listCategoryController, ObservableList<Tipoproduto> productTypeList)
+    public void initializeOnControllerCall(FXMLListCategoryController listCategoryController, ObservableList<CategoryBLL> productTypeList)
     {
         setListController(listCategoryController);
         setObservableList(productTypeList);
@@ -62,7 +62,7 @@ public class FXMLAddCategoryController implements Initializable {
     }
     
     /* * Sets observable list from a given observable list * */
-    private void setObservableList(ObservableList<Tipoproduto> productTypeList)
+    private void setObservableList(ObservableList<CategoryBLL> productTypeList)
     {
         this.productTypeList = productTypeList;
     }
@@ -72,8 +72,8 @@ public class FXMLAddCategoryController implements Initializable {
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         
-        Tipoproduto newType = new Tipoproduto();
-        newType.setIdtipoproduto((byte) (productTypeList.size() + 1));
+        CategoryBLL newType = new CategoryBLL();
+        //newType.setIdtipoproduto((byte) (productTypeList.size() + 1));
         newType.setNome(StringUtils.capitalize(categoryName.getText()).replaceAll(nonCharacters, ""));
         
         productTypeList.add(newType);
@@ -92,32 +92,13 @@ public class FXMLAddCategoryController implements Initializable {
         closeStage(event);
     }
     
-    /* * Searches for a category with the same name as the new one in the category list * */
-    private boolean checkForExistentCategory(String name, String nonCharacters)
-    {
-        if(!(productTypeList.isEmpty()))
-        {
-            for(Tipoproduto type : productTypeList)
-            {
-                String typeName = StringUtils.stripAccents(type.getNome().replaceAll(nonCharacters, "").toLowerCase());
-
-                if(name.equals(typeName))
-                {
-                    return true;
-                }
-            }
-        }
-            
-        return false;
-    }
-    
     /* * Enables or disables the button * */
     @FXML void setAddButtonUsability()
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         String newTypeName = StringUtils.stripAccents(categoryName.getText().replaceAll(nonCharacters, "").toLowerCase());
         
-        boolean exists = checkForExistentCategory(newTypeName, nonCharacters);
+        boolean exists = CategoryService.checkForExistentCategory(productTypeList, newTypeName, nonCharacters);
        
         if(categoryName.getText().isEmpty())
         {
@@ -140,15 +121,9 @@ public class FXMLAddCategoryController implements Initializable {
     }
     
     /* * Inserts entity into the database * */
-    private void insertCategory(Tipoproduto type)
+    private void insertCategory(CategoryBLL type)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        Transaction tx = session.beginTransaction();
-        session.save(type);
-
-        tx.commit();
-        session.close();
+        HibernateGenericLibrary.saveObject(type);
     }
     
     /* * Closes the stage on cancel button click * */

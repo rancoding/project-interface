@@ -5,10 +5,11 @@
  */
 package projetoii.design.administrator.warehouse.data.category.edit;
 
-import dao.Tipoproduto;
-import hibernate.HibernateUtil;
+import bll.CategoryBLL;
+import hibernate.HibernateGenericLibrary;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -21,9 +22,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.category.list.FXMLListCategoryController;
+import services.CategoryService;
 
 /**
  * FXML Controller class
@@ -39,8 +39,8 @@ public class FXMLEditCategoryController implements Initializable {
     
     /* Controller to be able to refresh the table on edit button click, and category list to be able to edit and search for existent categories */
     private FXMLListCategoryController listCategoryController;
-    private ObservableList<Tipoproduto> productTypeList;
-    private Tipoproduto productType;
+    private ObservableList<CategoryBLL> productTypeList;
+    private CategoryBLL productType;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -49,7 +49,7 @@ public class FXMLEditCategoryController implements Initializable {
     }    
     
     /* * To be called when needing to initialize values from the list category controller * */
-    public void initializeOnControllerCall(FXMLListCategoryController listCategoryController, ObservableList<Tipoproduto> productTypeList, Tipoproduto productType)
+    public void initializeOnControllerCall(FXMLListCategoryController listCategoryController, ObservableList<CategoryBLL> productTypeList, CategoryBLL productType)
     {
         /* Sets all variables accordingly to received parameters */
         setListCategoryController(listCategoryController);
@@ -63,12 +63,12 @@ public class FXMLEditCategoryController implements Initializable {
         this.listCategoryController = listCategoryController;
     }
     
-    private void setProductTypeList(ObservableList<Tipoproduto> productTypeList)
+    private void setProductTypeList(ObservableList<CategoryBLL> productTypeList)
     {
         this.productTypeList = productTypeList;
     }
     
-    private void setProductType(Tipoproduto productType)
+    private void setProductType(CategoryBLL productType)
     {
         this.productType = productType;
     }
@@ -88,25 +88,6 @@ public class FXMLEditCategoryController implements Initializable {
         
         this.listCategoryController.categoryTable.refresh();
         closeStage(event);
-    }
-    
-    /* * Checks if the category name typed in the text field already exists * */
-    private boolean checkIfNameExists(String name, String nonCharacters)
-    {
-        for(Tipoproduto type : productTypeList)
-        {
-            if(type.getIdtipoproduto() != productType.getIdtipoproduto())
-            {
-                String typeName = StringUtils.stripAccents(type.getNome().replaceAll(nonCharacters, "").toLowerCase());
-                
-                if(name.equals(typeName))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
     }
     
     /* * If category name exists, disables edit button and shows an error in a label * */
@@ -133,7 +114,7 @@ public class FXMLEditCategoryController implements Initializable {
         {
             if(!(editedTypeName.equals(typeName)))
             {
-                boolean exists = checkIfNameExists(editedTypeName, nonCharacters);
+                boolean exists = CategoryService.checkIfNameExists(productTypeList, productType, editedTypeName, nonCharacters);
 
                 if(exists)
                 {
@@ -164,17 +145,12 @@ public class FXMLEditCategoryController implements Initializable {
     /* * Updates entity on database * */
     private void updateCategory()
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<CategoryBLL> categories = HibernateGenericLibrary.executeHQLQuery("FROM TipoProduto WHERE idtipoproduto = " + productType.getIdtipoproduto());
         
-        Transaction tx = session.beginTransaction();
+        CategoryBLL oldCategory = categories.get(0);
+        oldCategory.setNome(productType.getNome());
         
-        Tipoproduto typeUpdate = (Tipoproduto)session.get(Tipoproduto.class, productType.getIdtipoproduto());
-        typeUpdate.setNome(productType.getNome());
-        
-        session.update(typeUpdate);
-        tx.commit();
-        
-        session.close();
+        HibernateGenericLibrary.updateObject(oldCategory);
     }
     
     /* * Closes the stage on cancel button click * */

@@ -5,11 +5,12 @@
  */
 package projetoii.design.administrator.warehouse.data.product.edit;
 
-import dao.Cor;
-import dao.Marca;
-import dao.Produto;
-import dao.Tamanho;
-import dao.Tipoproduto;
+import bll.BrandBLL;
+import bll.CategoryBLL;
+import bll.ColorBLL;
+import bll.ProductBLL;
+import bll.SizeBLL;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.io.IOException;
 import java.net.URL;
@@ -28,9 +29,11 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import org.apache.commons.lang3.text.WordUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.product.list.FXMLListProductController;
+import services.BrandService;
+import services.CategoryService;
+import services.ColorService;
+import services.SizeService;
 
 /**
  * FXML Controller class
@@ -52,24 +55,21 @@ public class FXMLEditProductController implements Initializable {
     @FXML private Button CancelButton;
     
     private FXMLListProductController listProductController;
-    private ObservableList<Produto> productList;
-    private Produto product;
+    private ObservableList<ProductBLL> productList;
+    private ProductBLL product;
     
-    ObservableList<Marca> marcaObservableList;
-    ObservableList<Tipoproduto> tipoProdutoObservableList;
-    ObservableList<Tamanho> tamanhoObservableList;
-    ObservableList<Cor> corObservableList;
-    
-    
+    ObservableList<BrandBLL> marcaObservableList;
+    ObservableList<CategoryBLL> tipoProdutoObservableList;
+    ObservableList<SizeBLL> tamanhoObservableList;
+    ObservableList<ColorBLL> corObservableList;
     
     /**
      * Initializes the controller class.
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        List<Marca> marcaList = session.createCriteria(Marca.class).list();
+        
+        List<BrandBLL> marcaList = BrandService.getConvertedBrandList();
         this.marcaObservableList = FXCollections.observableArrayList(marcaList);
 
         fillGenderComboBox();
@@ -78,38 +78,30 @@ public class FXMLEditProductController implements Initializable {
         fillSizeComboBox();
         fillBrandComboBox();
         brandComboBox.getSelectionModel().select(0);
-        setBrandComboBoxConverter();
-        
-        
-        session.close();
     }    
     
-    public void initializeOnControllerCall(FXMLListProductController listProductsController, ObservableList<Produto> productList, Produto product)
+    public void initializeOnControllerCall(FXMLListProductController listProductsController, ObservableList<ProductBLL> productList, ProductBLL product)
     {
-
-         /* Sets all variables accordingly to received parameters */
+        /* Sets all variables accordingly to received parameters */
         setListProductController(listProductsController);
         setProductList(productList);
         setProduct(product);
         setField();
                 
         setSelectedGenderComboBox(product.getGenero());
-        
     }
-    
-    
     
     private void setListProductController(FXMLListProductController listProductController)
     {
         this.listProductController = listProductController;
     }
     
-    private void setProductList(ObservableList<Produto> productList)
+    private void setProductList(ObservableList<ProductBLL> productList)
     {
         this.productList = productList;
     }
     
-    private void setProduct(Produto product)
+    private void setProduct(ProductBLL product)
     {
         this.product = product;
     }
@@ -133,79 +125,25 @@ public class FXMLEditProductController implements Initializable {
     public void fillBrandComboBox(){
         brandComboBox.getItems().addAll(this.marcaObservableList);
     }
-        
-    private void setBrandComboBoxConverter(){
-        brandComboBox.setConverter(new StringConverter() {
-            @Override
-            public String toString(Object object) {
-                return ((Marca) object).getNome();
-            }
-
-            @Override
-            public Object fromString(String string) {
-                return "";
-            }
-        });
     
-    }    
-    public void fillTypeProductComboBox(){
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-       
-        
-        
-
-        List<Tipoproduto> tipoProdutoList = session.createCriteria(Tipoproduto.class).list();
+    public void fillTypeProductComboBox()
+    {
+        List<CategoryBLL> tipoProdutoList = CategoryService.getConvertedCategoryList();
         this.tipoProdutoObservableList = FXCollections.observableArrayList(tipoProdutoList);
-
      
         typeComboBox.setItems(this.tipoProdutoObservableList);
-        typeComboBox.setConverter(new StringConverter<Tipoproduto>()
-        {
-                    @Override
-                    public String toString(Tipoproduto object) {
-                        return object.getNome();
-                    }
-
-                    @Override
-                    public Tipoproduto fromString(String string) {
-                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                    }
-        });    
-        session.close();
-
     }
     
-    public void fillSizeComboBox(){
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-       
-        
-        
-
-        List<Tamanho> tamanhoList = session.createCriteria(Tamanho.class).list();
+    public void fillSizeComboBox()
+    {
+        List<SizeBLL> tamanhoList = SizeService.getConvertedSizeList();
         this.tamanhoObservableList = FXCollections.observableArrayList(tamanhoList);
 
-        
         sizeComboBox.setItems(this.tamanhoObservableList);
-        sizeComboBox.setConverter(new StringConverter<Tamanho>()
-        {
-                    @Override
-                    public String toString(Tamanho object) {
-                        return object.getDescricao();
-                    }
-
-                    @Override
-                    public Tamanho fromString(String string) {
-                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                    }
-        });  
-        session.close();
     }
     
-    public void fillGenderComboBox(){
-    
-        
+    public void fillGenderComboBox()
+    {
         ObservableList genderObservableList;
 
         List genderList = new ArrayList<>();
@@ -215,41 +153,16 @@ public class FXMLEditProductController implements Initializable {
         genderList.add("Feminino");
         
         genderObservableList = FXCollections.observableArrayList(genderList);
-        
-        
-    
         genderComboBox.setItems(genderObservableList);
-        
-        
     }
     
-    public void fillColorComboBox(){
-        
-        Session session = HibernateUtil.getSessionFactory().openSession();
-       
-        
-        
-
-        List<Cor> corList = session.createCriteria(Cor.class).list();
+    public void fillColorComboBox()
+    {
+        List<ColorBLL> corList = ColorService.getConvertedColorList();
         this.corObservableList = FXCollections.observableArrayList(corList);
-
      
         colorComboBox.setItems(this.corObservableList);
-        colorComboBox.setConverter(new StringConverter<Cor>()
-        {
-                    @Override
-                    public String toString(Cor object) {
-                        return object.getNome();
-                    }
-
-                    @Override
-                    public Cor fromString(String string) {
-                        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-                    }
-        });  
-        session.close();
     }
-    
     
     ////////////////////////////////////////////////////////////////////////////
     
@@ -265,8 +178,10 @@ public class FXMLEditProductController implements Initializable {
         return 0;
     }
      
-     private void setSelectedGenderComboBox(char genero) {
-        switch(genero){
+     private void setSelectedGenderComboBox(char genero)
+     {
+        switch(genero)
+        {
             case 'U' : 
                 genderComboBox.getSelectionModel().select(0);
             case 'M': 
@@ -274,14 +189,12 @@ public class FXMLEditProductController implements Initializable {
             case 'F': 
                 genderComboBox.getSelectionModel().select(2);
         }    
-        
     }
     
     /* * Sets the new product name, updates in the database, refreshes the list controller table and closes current window * */
     @FXML
     void onEditButtonClick(ActionEvent event) throws IOException
     {
-
         updateProductList();
         updateProduct();
         
@@ -292,70 +205,81 @@ public class FXMLEditProductController implements Initializable {
     /* * Updates entity on database * */
     private void updateProduct()
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<ProductBLL> products = HibernateGenericLibrary.executeHQLQuery("FROM Produto WHERE codbarras = " + product.getCodbarras());
         
-        Transaction tx = session.beginTransaction();
+        ProductBLL oldProduct = products.get(0);
+        oldProduct.setCodbarras(Long.parseLong(barCodeText.getText()));
+        oldProduct.setDescricao(WordUtils.capitalizeFully(nameText.getText()));
+        oldProduct.setMarca((BrandBLL) brandComboBox.getSelectionModel().getSelectedItem());
+        oldProduct.setTamanho((SizeBLL) sizeComboBox.getSelectionModel().getSelectedItem());
+        oldProduct.setTipoproduto((CategoryBLL) typeComboBox.getSelectionModel().getSelectedItem());
+        oldProduct.setGenero(getComboBoxGender(genderComboBox.getSelectionModel().getSelectedIndex()));
+        oldProduct.setCor((ColorBLL) colorComboBox.getSelectionModel().getSelectedItem());
+        oldProduct.setPrecocompra(Double.parseDouble(buyPriceText.getText()));
+        oldProduct.setPrecovenda(Double.parseDouble(sellPriceText.getText()));
         
-        Produto productUpdate = (Produto)session.get(Produto.class, product.getCodbarras());
-
-  
-        
-        productUpdate.setCodbarras(Long.parseLong(barCodeText.getText()));
-        productUpdate.setDescricao(WordUtils.capitalizeFully(nameText.getText()));
-        productUpdate.setMarca((Marca) brandComboBox.getSelectionModel().getSelectedItem());
-        productUpdate.setTamanho((Tamanho) sizeComboBox.getSelectionModel().getSelectedItem());
-        productUpdate.setTipoproduto((Tipoproduto) typeComboBox.getSelectionModel().getSelectedItem());
-        productUpdate.setGenero(getComboBoxGender(genderComboBox.getSelectionModel().getSelectedIndex()));
-        productUpdate.setCor((Cor) colorComboBox.getSelectionModel().getSelectedItem());
-        productUpdate.setPrecocompra(Double.parseDouble(buyPriceText.getText()));
-        productUpdate.setPrecovenda(Double.parseDouble(sellPriceText.getText()));
-        
-        
-        session.update(productUpdate);
-        tx.commit();
-        
-        session.close();
+        HibernateGenericLibrary.updateObject(oldProduct);
     }
     
-    private void updateProductList(){
-        if(!(product.getDescricao().equals(nameText.getText()))){
+    private void updateProductList()
+    {
+        if(!(product.getDescricao().equals(nameText.getText())))
+        {
             product.setDescricao(WordUtils.capitalizeFully(nameText.getText()));
         }
-        if(!(product.getCodbarras()==(Long.valueOf(barCodeText.getText())))){
-           for(Produto prod : productList){
-               if(prod.getCodbarras()==(Long.valueOf(barCodeText.getText()))){
+        
+        if(!(product.getCodbarras()==(Long.valueOf(barCodeText.getText()))))
+        {
+           for(ProductBLL prod : productList)
+           {
+               if(prod.getCodbarras()==(Long.valueOf(barCodeText.getText())))
+               {
                    
-               }else{   
+               }
+               else
+               {   
                    product.setCodbarras(Long.valueOf(barCodeText.getText()));
                }
            }    
         }
-        if(!(product.getTipoproduto()==((Tipoproduto) typeComboBox.getSelectionModel().getSelectedItem()))){
-            product.setTipoproduto((Tipoproduto) typeComboBox.getSelectionModel().getSelectedItem());
+        
+        if(!(product.getTipoproduto()==((CategoryBLL) typeComboBox.getSelectionModel().getSelectedItem())))
+        {
+            product.setTipoproduto((CategoryBLL) typeComboBox.getSelectionModel().getSelectedItem());
         }
-        if(!(product.getGenero()==(getComboBoxGender(genderComboBox.getSelectionModel().getSelectedIndex())))){
+        
+        if(!(product.getGenero()==(getComboBoxGender(genderComboBox.getSelectionModel().getSelectedIndex()))))
+        {
             product.setGenero(getComboBoxGender(genderComboBox.getSelectionModel().getSelectedIndex()));
-        } else {
         }
-        if(!(product.getMarca()==((Marca) brandComboBox.getSelectionModel().getSelectedItem()))){
-            product.setMarca((Marca) brandComboBox.getSelectionModel().getSelectedItem());
+        else
+        {
         }
-        if(!(product.getCor()==((Cor) colorComboBox.getSelectionModel().getSelectedItem()))){
-            product.setCor((Cor) colorComboBox.getSelectionModel().getSelectedItem());
+        
+        if(!(product.getMarca()==((BrandBLL) brandComboBox.getSelectionModel().getSelectedItem())))
+        {
+            product.setMarca((BrandBLL) brandComboBox.getSelectionModel().getSelectedItem());
         }
-        if(!(product.getTamanho()==((Tamanho) sizeComboBox.getSelectionModel().getSelectedItem()))){
-            product.setTamanho((Tamanho) sizeComboBox.getSelectionModel().getSelectedItem());
+        
+        if(!(product.getCor()==((ColorBLL) colorComboBox.getSelectionModel().getSelectedItem())))
+        {
+            product.setCor((ColorBLL) colorComboBox.getSelectionModel().getSelectedItem());
         }
-        if(!(product.getPrecocompra()==(Double.parseDouble(buyPriceText.getText())))){
+        
+        if(!(product.getTamanho()==((SizeBLL) sizeComboBox.getSelectionModel().getSelectedItem())))
+        {
+            product.setTamanho((SizeBLL) sizeComboBox.getSelectionModel().getSelectedItem());
+        }
+        
+        if(!(product.getPrecocompra()==(Double.parseDouble(buyPriceText.getText()))))
+        {
             product.setPrecocompra(Double.parseDouble(buyPriceText.getText()));
         }
         
-        if(!(product.getPrecovenda()==(Double.parseDouble(sellPriceText.getText())))){
+        if(!(product.getPrecovenda()==(Double.parseDouble(sellPriceText.getText()))))
+        {
             product.setPrecovenda(Double.parseDouble(sellPriceText.getText()));
         }
-        
-        
-    
     }
     
     /* * Closes the stage on cancel button click * */

@@ -1,9 +1,7 @@
 package projetoii.design.administrator.warehouse.data.brand.add;
 
 import bll.BrandBLL;
-import dao.Marca;
 import hibernate.HibernateGenericLibrary;
-import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
@@ -16,10 +14,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.brand.list.FXMLListBrandController;
 import projetoii.design.administrator.warehouse.data.product.add.FXMLAddProductController;
+import services.BrandService;
 
 public class FXMLAddBrandController implements Initializable {
    
@@ -80,7 +77,7 @@ public class FXMLAddBrandController implements Initializable {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         
         BrandBLL newBrand = new BrandBLL();
-        newBrand.setIdmarca((byte) (brandList.size() + 1));
+        //newBrand.setIdmarca((byte) (brandList.size() + 1));
         newBrand.setNome(StringUtils.capitalize(brandName.getText()));
         
         brandList.add(newBrand);
@@ -99,32 +96,13 @@ public class FXMLAddBrandController implements Initializable {
         closeStage(event);
     }
     
-    /* * Searches for a brand with the same name as the new one in the brand list * */
-    private boolean checkForExistentBrand(String name, String nonCharacters)
-    {
-        if(!(brandList.isEmpty()))
-        {
-            for(Marca brand : brandList)
-            {
-                String brandName = StringUtils.stripAccents(brand.getNome().replaceAll(nonCharacters, "").toLowerCase());
-
-                if(name.equals(brandName))
-                {
-                    return true;
-                }
-            }
-        }
-            
-        return false;
-    }
-    
     /* * Enables or disables the button * */
     @FXML void setAddButtonUsability()
     {
         String nonCharacters = "[^\\p{L}\\p{Nd}]";
         String newBrandName = StringUtils.stripAccents(brandName.getText().replaceAll(nonCharacters, "").toLowerCase());
         
-        boolean exists = checkForExistentBrand(newBrandName, nonCharacters);
+        boolean exists = BrandService.checkForExistentBrand(brandList, newBrandName, nonCharacters);
        
         if(brandName.getText().isEmpty())
         {
@@ -147,7 +125,7 @@ public class FXMLAddBrandController implements Initializable {
     }
     
     /* * Inserts entity into the database * */
-    private void insertBrand(Marca brand)
+    private void insertBrand(BrandBLL brand)
     {
         HibernateGenericLibrary.saveObject(brand);
     }

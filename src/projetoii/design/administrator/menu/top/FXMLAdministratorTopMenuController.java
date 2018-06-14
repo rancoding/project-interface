@@ -36,11 +36,8 @@ public class FXMLAdministratorTopMenuController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        WarehouseService warehouseService = new WarehouseService();
-        List<WarehouseBLL> warehouseList = warehouseService.getConvertedWarehouseList();
-        
-        ShopService shopService = new ShopService();
-        List<ShopBLL> shopList = shopService.getConvertedShopList();
+        List<WarehouseBLL> warehouseList = WarehouseService.getConvertedWarehouseList();
+        List<ShopBLL> shopList = ShopService.getConvertedShopList();
         
         /* Adds both lists to the combobox */
         if(!(warehouseList.isEmpty()))

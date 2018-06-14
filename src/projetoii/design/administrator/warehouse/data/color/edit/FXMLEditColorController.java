@@ -1,9 +1,11 @@
 package projetoii.design.administrator.warehouse.data.color.edit;
 
-import dao.Cor;
+import bll.ColorBLL;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -16,9 +18,8 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.text.WordUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.color.list.FXMLListColorController;
+import services.ColorService;
 
 public class FXMLEditColorController implements Initializable {
     
@@ -29,8 +30,8 @@ public class FXMLEditColorController implements Initializable {
     
     /* Controller to be able to refresh the table on edit button click, and color list to be able to edit and search for existent color */
     private FXMLListColorController listColorController;
-    private ObservableList<Cor> colorList;
-    private Cor color;
+    private ObservableList<ColorBLL> colorList;
+    private ColorBLL color;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -39,7 +40,7 @@ public class FXMLEditColorController implements Initializable {
     }    
     
     /* * To be called when needing to initialize values from the list color controller * */
-    public void initializeOnControllerCall(FXMLListColorController listColorController, ObservableList<Cor> colorList, Cor color)
+    public void initializeOnControllerCall(FXMLListColorController listColorController, ObservableList<ColorBLL> colorList, ColorBLL color)
     {
         /* Sets all variables accordingly to received parameters */
         setListColorController(listColorController);
@@ -53,12 +54,12 @@ public class FXMLEditColorController implements Initializable {
         this.listColorController = listColorController;
     }
     
-    private void setColorList(ObservableList<Cor> colorList)
+    private void setColorList(ObservableList<ColorBLL> colorList)
     {
         this.colorList = colorList;
     }
     
-    private void setColor(Cor color)
+    private void setColor(ColorBLL color)
     {
         this.color = color;
     }
@@ -78,25 +79,6 @@ public class FXMLEditColorController implements Initializable {
         
         this.listColorController.colorTable.refresh();
         closeStage(event);
-    }
-    
-    /* * Checks if the color name typed in the text field already exists * */
-    private boolean checkIfNameExists(String name, String nonCharacters)
-    {
-        for(Cor c : colorList)
-        {
-            if(c.getIdcor() != color.getIdcor())
-            {
-                String colorName = StringUtils.stripAccents(c.getNome().replaceAll(nonCharacters, "").toLowerCase());
-                
-                if(name.equals(colorName))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
     }
     
     /* * If color name exists, disables edit button and shows an error in a label * */
@@ -123,7 +105,7 @@ public class FXMLEditColorController implements Initializable {
         {
             if(!(editedColorName.equals(searchColorName)))
             {
-                boolean exists = checkIfNameExists(editedColorName, nonCharacters);
+                boolean exists = ColorService.checkIfNameExists(colorList, color, editedColorName, nonCharacters);
 
                 if(exists)
                 {
@@ -154,17 +136,12 @@ public class FXMLEditColorController implements Initializable {
     /* * Updates entity on database * */
     private void updateColor()
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<ColorBLL> colors = HibernateGenericLibrary.executeHQLQuery("FROM Cor WHERE idcor = " + color.getIdcor());
         
-        Transaction tx = session.beginTransaction();
+        ColorBLL oldColor = colors.get(0);
+        oldColor.setNome(color.getNome());
         
-        Cor colorUpdate = (Cor)session.get(Cor.class, color.getIdcor());
-        colorUpdate.setNome(color.getNome());
-        
-        session.update(colorUpdate);
-        tx.commit();
-        
-        session.close();
+        HibernateGenericLibrary.updateObject(oldColor);
     }
     
     /* * Closes the stage on cancel button click * */

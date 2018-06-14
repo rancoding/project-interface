@@ -1,6 +1,6 @@
 package projetoii.design.administrator.warehouse.data.color.list;
 
-import dao.Cor;
+import bll.ColorBLL;
 import hibernate.HibernateUtil;
 import java.net.URL;
 import java.util.ArrayList;
@@ -27,18 +27,18 @@ import javafx.scene.layout.Background;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
 import projetoii.design.administrator.warehouse.data.color.add.FXMLAddColorController;
 import projetoii.design.administrator.warehouse.data.color.edit.FXMLEditColorController;
+import services.ColorService;
 
 public class FXMLListColorController implements Initializable {
 
     /* Variables used for setting up the table content */
-    @FXML public TableView<Cor> colorTable;
-    @FXML private TableColumn<Cor, Byte> idColumn;
-    @FXML private TableColumn<Cor, String> nameColumn;
-    @FXML private TableColumn<Cor, String> editColumn;
-    private ObservableList<Cor> colorObservableList;
+    @FXML public TableView<ColorBLL> colorTable;
+    @FXML private TableColumn<ColorBLL, Byte> idColumn;
+    @FXML private TableColumn<ColorBLL, String> nameColumn;
+    @FXML private TableColumn<ColorBLL, String> editColumn;
+    private ObservableList<ColorBLL> colorObservableList;
     
     /* Text field used to search colors on the table, updating as it searches */
     @FXML private TextField searchColorTextField;
@@ -46,11 +46,7 @@ public class FXMLListColorController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb)
     {
-        /* Initializes and opens the database session using hibernate */
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        
-        /* Retrieves all database colors to an arraylist and initializes the table values if it is not empty */
-        List<Cor> colorList = session.createCriteria(Cor.class).list();
+        List<ColorBLL> colorList = ColorService.getConvertedColorList();
         
         if(!(colorList.isEmpty()))
         {
@@ -58,16 +54,13 @@ public class FXMLListColorController implements Initializable {
         }
         else
         {
-            colorList = new ArrayList<Cor>();
+            colorList = new ArrayList<>();
             initializeTable(colorList);
         }
-        
-        /* Closes the database connection */
-        session.close();
     }
     
     /** Initializes all table content for the first time **/
-    private void initializeTable(List<Cor> colorList)
+    private void initializeTable(List<ColorBLL> colorList)
     {
         /* Sets column variables to use entity info, empty for a button creation */
         this.idColumn.setCellValueFactory(new PropertyValueFactory<>("idcor"));
@@ -85,7 +78,7 @@ public class FXMLListColorController implements Initializable {
     }
     
     /* * Sets the table items to be the same as the observable list items * */
-    private void setTableItems(ObservableList<Cor> colorObservableList)
+    private void setTableItems(ObservableList<ColorBLL> colorObservableList)
     {
         this.colorTable.setItems(colorObservableList);
     }
@@ -93,13 +86,13 @@ public class FXMLListColorController implements Initializable {
     /* Creates a button for each table cell, also setting up an image for each button (with a different hover image and size) */
     private Callback getButtonCell(Image image, Image imageHover)
     {
-        Callback<TableColumn<Cor, String>, TableCell<Cor, String>> cellFactory;
-        cellFactory = new Callback<TableColumn<Cor, String>, TableCell<Cor, String>>()
+        Callback<TableColumn<ColorBLL, String>, TableCell<ColorBLL, String>> cellFactory;
+        cellFactory = new Callback<TableColumn<ColorBLL, String>, TableCell<ColorBLL, String>>()
         {
             @Override
-            public TableCell call(final TableColumn<Cor, String> param)
+            public TableCell call(final TableColumn<ColorBLL, String> param)
             {
-                final TableCell<Cor, String> cell = new TableCell<Cor, String>()
+                final TableCell<ColorBLL, String> cell = new TableCell<ColorBLL, String>()
                 {
                     final Button button = new Button();
                     
@@ -116,7 +109,7 @@ public class FXMLListColorController implements Initializable {
                         {
                             /* On edit button, opens an edit category window with the row category info and the list of existent categories */
                             button.setOnAction((event) -> {
-                                Cor color = getTableView().getItems().get(getIndex());
+                                ColorBLL color = getTableView().getItems().get(getIndex());
                                 loadNewEditWindow(FXMLEditColorController.class, "FXMLEditColor.fxml", "Armazém - Editar Cor", "Não foi possível carregar o ficheiro FXMLEditColor.fxml", color);
                             });
                             
@@ -197,7 +190,7 @@ public class FXMLListColorController implements Initializable {
     }
     
     /* * Loads a new edit window * */
-    private void loadNewEditWindow(Class controller, String fileName, String title, String message, Cor color)
+    private void loadNewEditWindow(Class controller, String fileName, String title, String message, ColorBLL color)
     {
         try
         {
@@ -222,7 +215,7 @@ public class FXMLListColorController implements Initializable {
     @FXML
     void getSearchList()
     {
-        List<Cor> colorList = new ArrayList<>();
+        List<ColorBLL> colorList = new ArrayList<>();
             
         /* If something has been typed, tries to find an existent color with the given name or ID */
         if(searchColorTextField.getText().length() > 0)
@@ -231,7 +224,7 @@ public class FXMLListColorController implements Initializable {
             
             String nonCharacters = "[^\\p{L}\\p{Nd}]";
             
-            for(Cor color : colorObservableList)
+            for(ColorBLL color : colorObservableList)
             {
                 String searchString = StringUtils.stripAccents(searchColorTextField.getText().replaceAll(nonCharacters, "").toLowerCase());
                 
@@ -256,10 +249,10 @@ public class FXMLListColorController implements Initializable {
     }
     
     /* * Sets new table values * */
-    public void setSearchedTableValues(List<Cor> colorList)
+    public void setSearchedTableValues(List<ColorBLL> colorList)
     {
-        ObservableList<Cor> colorObservableList;
-        colorObservableList = FXCollections.observableArrayList(colorList);
-        setTableItems(colorObservableList);
+        ObservableList<ColorBLL> newColorObservableList;
+        newColorObservableList = FXCollections.observableArrayList(colorList);
+        setTableItems(newColorObservableList);
     }
 }

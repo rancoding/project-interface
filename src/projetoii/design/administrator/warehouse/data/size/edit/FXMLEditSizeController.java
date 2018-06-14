@@ -5,10 +5,12 @@
  */
 package projetoii.design.administrator.warehouse.data.size.edit;
 
-import dao.Tamanho;
+import bll.SizeBLL;
+import hibernate.HibernateGenericLibrary;
 import hibernate.HibernateUtil;
 import java.io.IOException;
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -20,9 +22,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.apache.commons.lang3.StringUtils;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
 import projetoii.design.administrator.warehouse.data.size.list.FXMLListSizeController;
+import services.SizeService;
 
 /**
  * FXML Controller class
@@ -38,8 +39,8 @@ public class FXMLEditSizeController implements Initializable {
     
     /* Controller to be able to refresh the table on edit button click, and size list to be able to edit and search for existent sizes */
     private FXMLListSizeController listSizeController;
-    private ObservableList<Tamanho> sizeList;
-    private Tamanho size;
+    private ObservableList<SizeBLL> sizeList;
+    private SizeBLL size;
     
     @Override
     public void initialize(URL url, ResourceBundle rb)
@@ -48,7 +49,7 @@ public class FXMLEditSizeController implements Initializable {
     }    
     
     /* * To be called when needing to initialize values from the list size controller * */
-    public void initializeOnControllerCall(FXMLListSizeController listSizeController, ObservableList<Tamanho> sizeList, Tamanho size)
+    public void initializeOnControllerCall(FXMLListSizeController listSizeController, ObservableList<SizeBLL> sizeList, SizeBLL size)
     {
         /* Sets all variables accordingly to received parameters */
         setListSizeController(listSizeController);
@@ -62,12 +63,12 @@ public class FXMLEditSizeController implements Initializable {
         this.listSizeController = listSizeController;
     }
     
-    private void setSizeList(ObservableList<Tamanho> sizeList)
+    private void setSizeList(ObservableList<SizeBLL> sizeList)
     {
         this.sizeList = sizeList;
     }
     
-    private void setSize(Tamanho size)
+    private void setSize(SizeBLL size)
     {
         this.size = size;
     }
@@ -87,25 +88,6 @@ public class FXMLEditSizeController implements Initializable {
         
         this.listSizeController.sizeTable.refresh();
         closeStage(event);
-    }
-    
-    /* * Checks if the size name typed in the text field already exists * */
-    private boolean checkIfNameExists(String name, String nonCharacters)
-    {
-        for(Tamanho s : sizeList)
-        {
-            if(s.getIdtamanho() != size.getIdtamanho())
-            {
-                String sizeName = StringUtils.stripAccents(s.getDescricao().replaceAll(nonCharacters, "").toLowerCase());
-                
-                if(name.equals(sizeName))
-                {
-                    return true;
-                }
-            }
-        }
-        
-        return false;
     }
     
     /* * If size name exists, disables edit button and shows an error in a label * */
@@ -133,7 +115,7 @@ public class FXMLEditSizeController implements Initializable {
         {
             if(!(editedSizeName.equals(searchSizeName)))
             {
-                boolean exists = checkIfNameExists(editedSizeName, nonCharacters);
+                boolean exists = SizeService.checkIfNameExists(sizeList, size, editedSizeName, nonCharacters);
 
                 if(exists)
                 {
@@ -164,17 +146,12 @@ public class FXMLEditSizeController implements Initializable {
     /* * Updates entity on database * */
     private void updateSize()
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        List<SizeBLL> sizes = HibernateGenericLibrary.executeHQLQuery("FROM Tamanho WHERE idtamanho = " + size.getIdtamanho());
         
-        Transaction tx = session.beginTransaction();
+        SizeBLL oldSize = sizes.get(0);
+        oldSize.setDescricao(size.getDescricao());
         
-        Tamanho sizeUpdate = (Tamanho)session.get(Tamanho.class, size.getIdtamanho());
-        sizeUpdate.setDescricao(size.getDescricao());
-        
-        session.update(sizeUpdate);
-        tx.commit();
-        
-        session.close();
+        HibernateGenericLibrary.updateObject(oldSize);
     }
     
     /* * Closes the stage on cancel button click * */
